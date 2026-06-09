@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Can't Reach the Site — Connection Help</title>
+  <link rel="stylesheet" href="shared.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    .chart-section { margin-bottom: 3.5rem; }
+    .mermaid-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .os-selector { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .os-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.5rem 1.25rem;
+      border-radius: 99px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .os-pill:hover, .os-pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(247,147,30,0.08);
+    }
+  </style>
+</head>
+<body>
+
+<div data-component="header"></div>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Problem 1 — Site Access</div>
+    <h1>Can't reach<br><span>the site?</span></h1>
+    <p>
+      The <span data-config="serverTLD"></span> domain gets blocked by many ISPs and antivirus
+      products due to the TLD's reputation. There are several ways to get around it —
+      start with the flowchart for your OS, or jump to a specific fix below.
+    </p>
+  </div>
+
+  <div class="callout info">
+    <strong>Three main fixes, in order of ease:</strong> changing your DNS to bypass your ISP's
+    blocklist, whitelisting the site in your antivirus, or using Cloudflare WARP to encrypt
+    your traffic entirely so it can't be inspected and blocked. Firefox users also have a
+    quick built-in option via DNS over HTTPS.
+  </div>
+
+  <!-- ── OS FLOWCHARTS ── -->
+  <div class="os-selector">
+    <a class="os-pill active" href="#chart-win">🪟 Windows</a>
+    <a class="os-pill" href="#chart-mac">🍎 macOS</a>
+    <a class="os-pill" href="#chart-linux">🐧 Linux</a>
+  </div>
+
+  <!-- WINDOWS -->
+  <div class="chart-section" id="chart-win">
+    <h2>🪟 Windows</h2>
+    <p>Follow this chart step by step. Each fix is faster than the next — try them in order.</p>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on Windows]) --> AV0{Does your browser show\nan antivirus warning\nor your AV popped up?}
+    AV0 -->|Yes| AVFIX[Whitelist the site\nin your antivirus\nSee Antivirus guide]
+    AV0 -->|No| DNS0[Open Command Prompt\nRun: nslookup DOMAIN]
+    DNS0 --> DNS1{Did it return\nan IP address?}
+    DNS1 -->|No — DNS blocked| DNS2[Change DNS to 1.1.1.1\nSettings → Network\n→ DNS → Manual\nThen: ipconfig /flushdns]
+    DNS1 -->|Yes — DNS resolves| NORTN[Try Norton or\ndeep-inspection AV?\nSee notes below]
+    DNS2 --> TEST1{Site loads now?}
+    TEST1 -->|Yes ✅| DONE([✅ Done!])
+    TEST1 -->|No — still blocked| DOH[Try Firefox with\nDNS over HTTPS\nSettings → Privacy\n→ Enable DNS over HTTPS]
+    DOH --> TEST2{Site loads now?}
+    TEST2 -->|Yes ✅| DONE
+    TEST2 -->|No| AVFIX
+    AVFIX --> TEST3{Site loads now?}
+    TEST3 -->|Yes ✅| DONE
+    TEST3 -->|No — ISP doing\ndeep inspection| WARP[Install Cloudflare WARP\nThis encrypts all traffic\nso the block can't see it]
+    NORTN --> WARP
+    WARP --> TEST4{Site loads now?}
+    TEST4 -->|Yes ✅| DONE
+    TEST4 -->|No| HELP([💬 Post in Discord:\nnslookup result + AV name\n+ ISP name])
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    </pre></div>
+    <div class="callout info">
+      <strong>Norton / ISP deep inspection note:</strong> Some antivirus products (notably Norton)
+      and some ISPs perform deep packet inspection — they can block a domain even when your DNS
+      is correct, because they inspect the traffic itself rather than just the lookup.
+      In this case, changing DNS alone won't help. Jump straight to
+      <a href="warp.html">Cloudflare WARP</a>, which encrypts your traffic end-to-end
+      so it can't be inspected.
+    </div>
+  </div>
+
+  <!-- MACOS -->
+  <div class="chart-section" id="chart-mac">
+    <h2>🍎 macOS</h2>
+    <p>Follow this chart step by step.</p>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on macOS]) --> AV0{Does your browser show\nan antivirus or\nsecurity warning?}
+    AV0 -->|Yes| AVFIX[Whitelist the site\nin your security software\nSee Antivirus guide]
+    AV0 -->|No| DNS0[Open Terminal\nRun: dig DOMAIN]
+    DNS0 --> DNS1{Did dig return\nan IP address?}
+    DNS1 -->|No — DNS blocked| DNS2[System Settings → Network\n→ connection → Details\n→ DNS tab\nAdd 1.1.1.1 and 1.0.0.1\nThen flush cache]
+    DNS1 -->|Yes — DNS resolves| AVFIX
+    DNS2 --> FLUSH[sudo dscacheutil -flushcache\nsudo killall -HUP mDNSResponder]
+    FLUSH --> TEST1{Site loads now?}
+    TEST1 -->|Yes ✅| DONE([✅ Done!])
+    TEST1 -->|No| DOH[Try Firefox with\nDNS over HTTPS\nSettings → Privacy\n→ Enable DNS over HTTPS]
+    DOH --> TEST2{Site loads now?}
+    TEST2 -->|Yes ✅| DONE
+    TEST2 -->|No| AVFIX
+    AVFIX --> TEST3{Site loads now?}
+    TEST3 -->|Yes ✅| DONE
+    TEST3 -->|No| WARP[Install Cloudflare WARP\nfrom one.one.one.one\nor Mac App Store]
+    WARP --> TEST4{Site loads now?}
+    TEST4 -->|Yes ✅| DONE
+    TEST4 -->|No| HELP([💬 Post in Discord:\ndig output + AV name\n+ ISP name])
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    </pre></div>
+    <div class="callout info">
+      <strong>Reading the dig result:</strong> Run <code>dig <span data-config="serverDomain"></span></code>
+      in Terminal. If you see a <code>;; ANSWER SECTION:</code> with an IP address, DNS is working —
+      the block is at the antivirus or ISP traffic level. No answer section means DNS is blocked.
+    </div>
+  </div>
+
+  <!-- LINUX -->
+  <div class="chart-section" id="chart-linux">
+    <h2>🐧 Linux</h2>
+    <p>Follow this chart step by step. DNS configuration varies by distro — see the <a href="dns.html">DNS guide</a> for distro-specific commands.</p>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on Linux]) --> DNS0[Run: dig DOMAIN\nor: nslookup DOMAIN]
+    DNS0 --> DNS1{Did it return\nan IP address?}
+    DNS1 -->|No — DNS blocked| DNS2{Which DNS manager?}
+    DNS1 -->|Yes — DNS resolves| BROWSER[Check browser\nextensions and any\nsecurity software]
+    DNS2 --> SD[systemd-resolved:\nEdit resolved.conf\nDNS=1.1.1.1 1.0.0.1\nrestart systemd-resolved]
+    DNS2 --> NM[NetworkManager:\nnmcli con mod ...\nipv4.dns 1.1.1.1]
+    DNS2 --> RC[resolv.conf:\nnameserver 1.1.1.1]
+    SD --> FLUSH[Flush cache:\nsudo systemd-resolve\n--flush-caches]
+    NM --> TEST1
+    RC --> TEST1
+    FLUSH --> TEST1{Site loads now?}
+    TEST1 -->|Yes ✅| DONE([✅ Done!])
+    TEST1 -->|No| DOH[Try Firefox with\nDNS over HTTPS\nSettings → Privacy\n→ Enable DNS over HTTPS]
+    DOH --> TEST2{Site loads now?}
+    TEST2 -->|Yes ✅| DONE
+    TEST2 -->|No| BROWSER
+    BROWSER --> TEST3{Site loads now?}
+    TEST3 -->|Yes ✅| DONE
+    TEST3 -->|No| WARP[Install Cloudflare WARP\nSee WARP guide for\napt/yum install steps]
+    WARP --> TEST4{Site loads now?}
+    TEST4 -->|Yes ✅| DONE
+    TEST4 -->|No| HELP([💬 Post in Discord:\ndig output + distro\n+ DNS manager used])
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    </pre></div>
+    <div class="callout info">
+      Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code>
+      and <code>systemctl is-active NetworkManager</code> — whichever says <code>active</code> is yours.
+      See the full <a href="dns.html">DNS guide</a> for distro-specific commands.
+    </div>
+  </div>
+
+  <!-- ── FIXES IN DETAIL ── -->
+  <div class="section">
+    <h2>Fix 1 — Change your DNS</h2>
+    <p>
+      Your ISP's DNS resolver may be blocking the <span data-config="serverTLD"></span> domain.
+      Switching to Cloudflare's public resolver (<strong>1.1.1.1</strong>) bypasses your ISP's
+      blocklist. This is the fastest fix and doesn't change anything else about how your internet works.
+    </p>
+    <p>→ Full instructions for all three OSes: <a href="dns.html">DNS Fix guide</a></p>
+  </div>
+
+  <div class="section">
+    <h2>Fix 2 — DNS over HTTPS in Firefox</h2>
+    <p>
+      If you use Firefox, you can enable DNS over HTTPS (DoH) without changing any system settings.
+      This encrypts your DNS lookups and routes them through Cloudflare, bypassing ISP-level filtering.
+    </p>
+    <ol class="steps">
+      <li><div>Open Firefox and go to <strong>Settings → Privacy &amp; Security</strong>.</div></li>
+      <li><div>Scroll down to <strong>DNS over HTTPS</strong>.</div></li>
+      <li><div>Select <strong>Max Protection</strong> and choose <strong>Cloudflare</strong> as the provider.</div></li>
+      <li><div>Reload the page.</div></li>
+    </ol>
+    <div class="callout info">
+      This only applies to Firefox. Other browsers (Chrome, Edge) have their own DoH settings —
+      look for "Secure DNS" or "Use secure DNS" in their privacy settings, with Cloudflare
+      (<code>1.1.1.1</code>) as the provider.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Fix 3 — Whitelist in your antivirus</h2>
+    <p>
+      If your antivirus web shield is blocking the site — you'll usually see a branded warning
+      page rather than a browser error — you need to add an exception for the domain.
+    </p>
+    <p>→ Step-by-step for Avast, AVG, Malwarebytes, Norton, Kaspersky, Bitdefender: <a href="antivirus.html">Antivirus guide</a></p>
+    <div class="callout danger">
+      <strong>Norton users:</strong> Norton's web protection operates at the network driver level
+      and can block traffic even when DNS is changed. Whitelisting in Norton is the right fix,
+      but if it doesn't work, WARP (Fix 4) is the reliable fallback since it encrypts traffic
+      before Norton can inspect it.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Fix 4 — Cloudflare WARP (last resort)</h2>
+    <p>
+      If DNS changes and antivirus whitelisting haven't worked, your ISP may be performing
+      deep packet inspection — blocking the connection at the traffic level, not just the DNS level.
+      Cloudflare WARP encrypts your traffic end-to-end, which prevents this kind of inspection.
+    </p>
+    <p>
+      WARP is free and takes about 5 minutes to set up. Once connected, it also uses Cloudflare's
+      DNS (1.1.1.1) automatically, so it replaces Fix 1 as well.
+    </p>
+    <p>→ <a href="warp.html">Cloudflare WARP setup guide</a></p>
+    <div class="callout">
+      If you're already planning to use WARP for disconnect issues too, you may as well jump
+      straight to the <a href="warp-zero-trust.html">Zero Trust split tunneling setup</a> —
+      it handles both problems at once while only routing server traffic through WARP.
+    </div>
+  </div>
+
+</div>
+
+<div data-component="footer"></div>
+
+<script src="loader.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
+    document.querySelectorAll("pre.mermaid").forEach(el => {
+      el.textContent = el.textContent.replaceAll("DOMAIN", domain);
+    });
+  });
+</script>
+</body>
+</html>
