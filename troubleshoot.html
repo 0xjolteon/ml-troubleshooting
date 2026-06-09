@@ -7,13 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="stylesheet" href="shared.css" />
   <style>
-    /* Extra styles for flowchart page */
-    .chart-section {
-      margin-bottom: 3.5rem;
-    }
-    .chart-section h2 {
-      margin-bottom: 1rem;
-    }
+    .chart-section { margin-bottom: 3.5rem; }
+    .chart-section h2 { margin-bottom: 1rem; }
     .mermaid-wrap {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -23,12 +18,7 @@
       overflow-x: auto;
       text-align: center;
     }
-    .os-selector {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
+    .os-selector { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
     .os-pill {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -52,7 +42,7 @@
 <body>
 
 <header>
-  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <span class="logo"><!-- filled by config.js --></span>
   <nav>
     <a href="index.html">Home</a>
     <a href="dns.html">DNS Fix</a>
@@ -67,7 +57,10 @@
   <div class="hero">
     <div class="hero-badge">Troubleshooter</div>
     <h1>Diagnose your <span>connection issue</span></h1>
-    <p>Follow the flowchart for your operating system. Each decision point links to the relevant fix guide. Start at the top and work your way down.</p>
+    <p>
+      Follow the flowchart for your operating system. Each decision point links to the
+      relevant fix guide. Start at the top and work your way down.
+    </p>
   </div>
 
   <div class="os-selector">
@@ -122,11 +115,11 @@ flowchart TD
     <h2>🪟 Windows — Step by step</h2>
     <p>Follow this chart if you're on Windows and the site won't load.</p>
     <div class="mermaid-wrap">
-      <pre class="mermaid">
+      <pre class="mermaid" id="chart-win-mermaid">
 flowchart TD
     A([Start — Site won't load on Windows]) --> B{Does a browser\nerror name your\nantivirus?}
     B -->|Yes| AV[Open Avast / Malwarebytes\n/ Defender and whitelist\nthe site URL]
-    B -->|No| C[Open Command Prompt\nRun: nslookup yourserver.ml]
+    B -->|No| C[Open Command Prompt\nRun: nslookup DOMAIN]
     C --> D{Did it return\nan IP address?}
     D -->|No — DNS blocked| E[Change DNS to 1.1.1.1\nSettings → Network\n→ DNS → Manual]
     D -->|Yes — DNS works| AV
@@ -146,7 +139,10 @@ flowchart TD
     style HELP fill:#58a6ff,color:#000,stroke:none
       </pre>
     </div>
-    <div class="callout info">Tip: Run <code>nslookup yourserver.ml</code> in Command Prompt first. If it returns <code>can't find server</code>, DNS is the problem. If it returns an IP, antivirus is the problem.</div>
+    <div class="callout info">
+      Tip: Run <code>nslookup <span data-config="serverDomain"></span></code> in Command Prompt first.
+      If it returns <code>can't find server</code>, DNS is the problem. If it returns an IP, antivirus is the problem.
+    </div>
   </div>
 
   <!-- MACOS CHART -->
@@ -154,9 +150,9 @@ flowchart TD
     <h2>🍎 macOS — Step by step</h2>
     <p>Follow this chart if you're on macOS and the site won't load.</p>
     <div class="mermaid-wrap">
-      <pre class="mermaid">
+      <pre class="mermaid" id="chart-mac-mermaid">
 flowchart TD
-    A([Start — Site won't load on macOS]) --> B[Open Terminal\nRun: dig yourserver.ml]
+    A([Start — Site won't load on macOS]) --> B[Open Terminal\nRun: dig DOMAIN]
     B --> C{Did dig return\nan IP address?}
     C -->|No — DNS blocked| D[System Settings → Network\n→ your connection\n→ Details → DNS tab\nAdd 1.1.1.1 and 1.0.0.1]
     C -->|Yes — DNS works| AV
@@ -177,7 +173,10 @@ flowchart TD
     style HELP fill:#58a6ff,color:#000,stroke:none
       </pre>
     </div>
-    <div class="callout info">Tip: Run <code>dig yourserver.ml</code> in Terminal. Look for an <code>;; ANSWER SECTION:</code> with an IP address. No answer section means DNS is blocked.</div>
+    <div class="callout info">
+      Tip: Run <code>dig <span data-config="serverDomain"></span></code> in Terminal.
+      Look for an <code>;; ANSWER SECTION:</code> with an IP address. No answer section means DNS is blocked.
+    </div>
   </div>
 
   <!-- LINUX CHART -->
@@ -187,7 +186,7 @@ flowchart TD
     <div class="mermaid-wrap">
       <pre class="mermaid">
 flowchart TD
-    A([Start — Site won't load on Linux]) --> B[Run: dig yourserver.ml\nor: nslookup yourserver.ml]
+    A([Start — Site won't load on Linux]) --> B[Run: dig DOMAIN\nor: nslookup DOMAIN]
     B --> C{Did it return\nan IP address?}
     C -->|No — DNS blocked| D{Which DNS\nmanager are you using?}
     C -->|Yes — DNS works| BROWSER[Check browser\nsecurity extensions\nand whitelist site]
@@ -249,19 +248,27 @@ flowchart TD
       </pre>
     </div>
     <div class="callout">
-      <strong>Running a traceroute:</strong>
-      <br>Windows: <code>tracert [server-ip]</code>
-      <br>macOS/Linux: <code>traceroute [server-ip]</code>
-      <br>Post the full output in Discord — it shows exactly where your connection is dropping.
+      <strong>Running a traceroute:</strong><br>
+      Windows: <code>tracert <span data-config="serverDomain"></span></code><br>
+      macOS/Linux: <code>traceroute <span data-config="serverDomain"></span></code><br>
+      Post the full output in <a href="#" data-discord>Discord</a> — it shows exactly where your connection is dropping.
     </div>
   </div>
 
 </div>
 
-<footer>
-  Maintained by the server staff. To suggest edits, open a pull request on the GitHub repo.
-</footer>
+<footer><!-- filled by config.js --></footer>
 
+<script src="config.js"></script>
 <script src="shared.js"></script>
+<script>
+  // Replace DOMAIN placeholder in mermaid charts with actual domain from config
+  document.addEventListener("DOMContentLoaded", () => {
+    const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
+    document.querySelectorAll("pre.mermaid").forEach(el => {
+      el.textContent = el.textContent.replaceAll("DOMAIN", domain);
+    });
+  });
+</script>
 </body>
 </html>

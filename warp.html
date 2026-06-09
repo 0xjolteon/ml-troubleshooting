@@ -10,7 +10,7 @@
 <body>
 
 <header>
-  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <span class="logo"><!-- filled by config.js --></span>
   <nav>
     <a href="index.html">Home</a>
     <a href="dns.html">DNS Fix</a>
@@ -25,17 +25,30 @@
   <div class="hero">
     <div class="hero-badge">SEA Players · Free Fix</div>
     <h1>Set up <span>Cloudflare WARP</span></h1>
-    <p>WARP is a free tool from Cloudflare that improves your internet routing. For SEA players, it often fixes frequent disconnections <em>and</em> the .ml DNS block — both at once, no VPN subscription needed.</p>
+    <p>
+      WARP is a free tool from Cloudflare that improves your internet routing. For SEA players,
+      it often fixes frequent disconnections <em>and</em> the <span data-config="serverTLD"></span>
+      DNS block — both at once, no VPN subscription needed.
+    </p>
   </div>
 
   <div class="section">
     <h2>What is WARP and how does it help?</h2>
-    <p>WARP is not a traditional VPN. It doesn't change your IP address or hide your location. Instead, it routes your traffic through Cloudflare's global network, which often takes a much more direct path than your ISP's routing — especially from Southeast Asia to servers hosted in other regions.</p>
-    <div class="callout success">
-      <strong>Two problems, one fix:</strong> Because WARP uses Cloudflare's own DNS (1.1.1.1), it automatically bypasses ISP-level .ml domain blocking. If you're a SEA player having trouble reaching the site, try WARP first before anything else.
+    <p>
+      WARP is not a traditional VPN. It doesn't change your IP address or hide your location.
+      Instead, it routes your traffic through Cloudflare's global network, which often takes a
+      much more direct path than your ISP's routing — especially from Southeast Asia to servers
+      hosted in other regions.
+    </p>
+    <div class="callout success sea-callout">
+      <strong>Two problems, one fix:</strong> Because WARP uses Cloudflare's own DNS (1.1.1.1),
+      it automatically bypasses ISP-level <span data-config="serverTLD"></span> domain blocking.
+      If you're a SEA player having trouble reaching <strong data-config="serverDomain"></strong>,
+      try WARP first before anything else.
     </div>
     <div class="callout info">
-      WARP is completely free. There is a paid tier (WARP+) with faster speeds, but the free version is sufficient for gaming and fixing the connection issues described here.
+      WARP is completely free. There is a paid tier (WARP+) with faster speeds, but the free
+      version is sufficient for gaming and fixing the connection issues described here.
     </div>
   </div>
 
@@ -52,11 +65,11 @@
       <!-- WINDOWS -->
       <div class="tab-panel active" id="warp-win">
         <ol class="steps">
-          <li><div>Download the installer from <strong>one.one.one.one</strong> — click the Windows download button. (If that page won't load, search "Cloudflare WARP download" or try the direct link: <code>developers.cloudflare.com/warp-client/get-started</code>)</div></li>
-          <li><div>Run the downloaded <code>.exe</code> installer. It requires no special configuration — just click through the defaults.</div></li>
+          <li><div>Download the installer from <strong>one.one.one.one</strong> — click the Windows download button. (If that page won't load, search "Cloudflare WARP download".)</div></li>
+          <li><div>Run the downloaded <code>.exe</code> installer — just click through the defaults.</div></li>
           <li><div>Once installed, WARP appears in your system tray (bottom-right). Click the icon to open it.</div></li>
           <li><div>Click the large toggle to connect. The button turns blue and shows <strong>Connected</strong> when it's working.</div></li>
-          <li><div>Try loading the server site again.</div></li>
+          <li><div>Try loading <strong data-config="serverDomain"></strong> again.</div></li>
         </ol>
         <div class="callout">If WARP was blocked by antivirus during install, see the <a href="antivirus.html">antivirus guide</a> to whitelist it first.</div>
       </div>
@@ -68,7 +81,7 @@
           <li><div>Open the downloaded <code>.pkg</code> file and follow the installer. You'll be prompted to allow a VPN configuration — click <strong>Allow</strong>. This is normal and required for WARP to work.</div></li>
           <li><div>WARP appears in your menu bar (top-right). Click the icon.</div></li>
           <li><div>Click the toggle to connect. It will turn blue when connected.</div></li>
-          <li><div>Try loading the server site again.</div></li>
+          <li><div>Try loading <strong data-config="serverDomain"></strong> again.</div></li>
         </ol>
         <div class="callout info">macOS may ask for your password when installing the VPN profile. This is expected — WARP uses a VPN tunnel interface even though it's not a traditional VPN.</div>
       </div>
@@ -114,23 +127,12 @@ warp-cli status</code></pre>
 
   <div class="section">
     <h2>Confirm WARP is working</h2>
-    <p>Visit <strong>cloudflare.com/cdn-cgi/trace</strong> in your browser. Look for the line that says <code>warp=on</code>. If it shows <code>warp=off</code>, the toggle may not be connected — open the WARP app and try toggling it off and back on.</p>
-    <pre><code>fl=123abc
-h=cloudflare.com
-ip=xxx.xxx.xxx.xxx
-ts=1234567890.123
-visit_scheme=https
-uag=Mozilla/5.0 ...
-colo=SIN
-sliver=none
-http=http/2
-loc=SG
-tls=TLSv1.3
-sni=plaintext
-warp=on          ← This should say "on"
-gateway=off
-rbi=off
-kex=X25519</code></pre>
+    <p>
+      Visit <strong>cloudflare.com/cdn-cgi/trace</strong> in your browser.
+      Look for the line that says <code>warp=on</code>. If it shows <code>warp=off</code>,
+      open the WARP app and try toggling it off and back on.
+    </p>
+    <pre><code>warp=on          ← This should say "on"</code></pre>
   </div>
 
   <div class="section">
@@ -139,16 +141,15 @@ kex=X25519</code></pre>
     <ul class="steps">
       <li><div>Try switching WARP's mode — in the app settings, look for <strong>WARP mode</strong> vs <strong>DNS-only mode</strong>. Full WARP mode routes more traffic and typically helps more with gaming stability.</div></li>
       <li><div>Check if the issue only happens at specific times of day — peak hours can cause congestion that WARP can't fully overcome.</div></li>
-      <li><div>Run the <a href="troubleshoot.html">troubleshooter</a> for a more detailed diagnosis.</div></li>
+      <li><div>Run the <a href="troubleshoot.html">troubleshooter</a> for a more detailed diagnosis, or ask in <a href="#" data-discord>our Discord</a> in <strong data-config="discordChannel"></strong>.</div></li>
     </ul>
   </div>
 
 </div>
 
-<footer>
-  Maintained by the server staff. To suggest edits, open a pull request on the GitHub repo.
-</footer>
+<footer><!-- filled by config.js --></footer>
 
+<script src="config.js"></script>
 <script src="shared.js"></script>
 </body>
 </html>

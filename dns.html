@@ -10,7 +10,7 @@
 <body>
 
 <header>
-  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <span class="logo"><!-- filled by config.js --></span>
   <nav>
     <a href="index.html">Home</a>
     <a href="dns.html" class="active">DNS Fix</a>
@@ -25,13 +25,24 @@
   <div class="hero">
     <div class="hero-badge">DNS Fix</div>
     <h1>Fix the <span>DNS block</span></h1>
-    <p>Your ISP's DNS resolver may be blocking our .ml domain. Switching to a public DNS like Cloudflare or Google bypasses this completely — it takes about 2 minutes.</p>
+    <p>
+      Your ISP's DNS resolver may be blocking our <span data-config="serverTLD"></span> domain.
+      Switching to a public DNS like Cloudflare or Google bypasses this completely — it takes about 2 minutes.
+    </p>
   </div>
 
   <div class="section">
     <h2>What is DNS and why does this work?</h2>
-    <p>When you type a web address, your computer asks a <strong>DNS resolver</strong> to translate it to an IP address. By default, this is your ISP's resolver — and your ISP may have flagged .ml domains as suspicious. Switching to a public DNS resolver (like <strong>1.1.1.1</strong> from Cloudflare or <strong>8.8.8.8</strong> from Google) bypasses your ISP's blocklist entirely.</p>
-    <div class="callout info">This does not change your internet speed or affect anything else — it only changes how domain names get looked up.</div>
+    <p>
+      When you type a web address, your computer asks a <strong>DNS resolver</strong> to translate
+      it to an IP address. By default, this is your ISP's resolver — and your ISP may have flagged
+      <span data-config="serverTLD"></span> domains as suspicious. Switching to a public DNS resolver
+      (like <strong>1.1.1.1</strong> from Cloudflare or <strong>8.8.8.8</strong> from Google)
+      bypasses your ISP's blocklist entirely.
+    </p>
+    <div class="callout info">
+      This does not change your internet speed or affect anything else — it only changes how domain names get looked up.
+    </div>
   </div>
 
   <div class="section">
@@ -145,15 +156,18 @@ nslookup one.one.one.one
 
 # macOS / Linux
 dig +short whoami.cloudflare.com TXT @1.1.1.1</code></pre>
-    <p>If the change worked, the response will show Cloudflare's servers. Then try loading the site again — if it still doesn't work, check the <a href="antivirus.html">antivirus guide</a> or <a href="troubleshoot.html">run the troubleshooter</a>.</p>
+    <p>
+      If the change worked, the response will show Cloudflare's servers. Then try loading
+      <strong data-config="serverDomain"></strong> again — if it still doesn't work, check
+      the <a href="antivirus.html">antivirus guide</a> or <a href="troubleshoot.html">run the troubleshooter</a>.
+    </p>
   </div>
 
 </div>
 
-<footer>
-  Maintained by the server staff. To suggest edits, open a pull request on the GitHub repo.
-</footer>
+<footer><!-- filled by config.js --></footer>
 
+<script src="config.js"></script>
 <script src="shared.js"></script>
 </body>
 </html>
