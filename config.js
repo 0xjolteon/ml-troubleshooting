@@ -37,9 +37,8 @@ const SITE_CONFIG = {
   // Players enter this when enrolling their device in the WARP Zero Trust guide
   zeroTrustTeamName: "yourteamname",
 
-  // ── Region focus ──────────────────────────────────────────
-  // Set to true to show SEA-specific callouts more prominently
-  // (e.g. the green callout on the home page recommending WARP first)
+  // ── Routing callout visibility ────────────────────────────
+  // Set to false to hide the "experiencing disconnects? try WARP" callout boxes
   highlightSEA: true,
 
   // ── Footer text ───────────────────────────────────────────

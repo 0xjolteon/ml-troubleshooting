@@ -54,7 +54,7 @@
     <a class="os-pill" href="#chart-win">🪟 Windows</a>
     <a class="os-pill" href="#chart-mac">🍎 macOS</a>
     <a class="os-pill" href="#chart-linux">🐧 Linux</a>
-    <a class="os-pill" href="#chart-sea">⚡ SEA Disconnects</a>
+    <a class="os-pill" href="#chart-sea">⚡ Disconnects</a>
   </div>
 
   <div class="chart-section" id="chart-general">
@@ -63,23 +63,21 @@
     <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([🚀 Start here]) --> B{Can you load\nthe server site?}
-    B -->|Yes, but\ndisconnecting| SEA[Go to SEA\nDisconnects chart]
+    B -->|Yes, but\ndisconnecting| DISC[Go to Disconnects\nchart]
     B -->|No| C{What do you see\nin the browser?}
     C -->|Antivirus\nwarning page| AV[🛡️ Antivirus is blocking\nGo to Antivirus guide]
-    C -->|Generic browser\nerror / blank page| D{Are you in\nSEA region?}
-    C -->|Site loads\nbut slowly| SEA
-    D -->|Yes| WARP[⚡ Try WARP first\nIt fixes both issues]
-    D -->|No| DNS[🌐 Try DNS fix\nChange to 1.1.1.1]
+    C -->|Generic browser\nerror / blank page| DNS[🌐 Try DNS fix\nChange to 1.1.1.1]
+    C -->|Site loads\nbut slowly| DISC
     DNS --> E{Did the\nDNS fix work?}
     E -->|Yes ✅| DONE([✅ Done! Enjoy the game])
     E -->|No| AV
     AV --> F{Did whitelisting\nfix it?}
     F -->|Yes ✅| DONE
-    F -->|No| WARP
+    F -->|No| WARP[⚡ Try WARP\nSee WARP guide]
     WARP --> G{Did WARP\nfix it?}
     G -->|Yes ✅| DONE
     G -->|No| HELP([💬 Ask in Discord\nfor further help])
-    SEA --> H{Did WARP\nhelp?}
+    DISC --> H{Did WARP\nhelp?}
     H -->|Yes ✅| DONE
     H -->|No| HELP
     style A fill:#f7931e,color:#000,stroke:none
@@ -88,7 +86,7 @@ flowchart TD
     style WARP fill:#f7931e,color:#000,stroke:none,rx:8
     style DNS fill:#f7931e,color:#000,stroke:none,rx:8
     style AV fill:#f7931e,color:#000,stroke:none,rx:8
-    style SEA fill:#f7931e,color:#000,stroke:none,rx:8
+    style DISC fill:#f7931e,color:#000,stroke:none,rx:8
     </pre></div>
   </div>
 
@@ -186,11 +184,11 @@ flowchart TD
   </div>
 
   <div class="chart-section" id="chart-sea">
-    <h2>⚡ SEA — Frequent disconnects</h2>
-    <p>For players in Southeast Asia who connect fine but drop frequently during gameplay.</p>
+    <h2>⚡ Frequent disconnects</h2>
+    <p>For players who can reach the site but drop frequently during gameplay. Poor routing between your ISP and our server is the most common cause.</p>
     <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
-    A([Start — Frequent disconnects\nin SEA region]) --> B{Is WARP\nalready installed?}
+    A([Start — Frequent disconnects\nduring gameplay]) --> B{Is WARP\nalready installed?}
     B -->|No| INSTALL[Install Cloudflare WARP\nfrom one.one.one.one\nand connect]
     B -->|Yes| C{Is WARP\ncurrently on?}
     C -->|No| TOGGLE[Toggle WARP on\nand test again]
@@ -206,7 +204,7 @@ flowchart TD
     TEST3 -->|No| TIME{Do disconnects\nhappen at a\nspecific time?}
     TIME -->|Yes — peak hours| PEAK[This is likely\nISP congestion.\nTry playing at\noff-peak hours]
     TIME -->|No — random| TRACE[Run traceroute to\nthe server IP and\npost results in Discord]
-    TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand country])
+    TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand connection type])
     PEAK --> HELP
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
@@ -217,7 +215,7 @@ flowchart TD
       <strong>Running a traceroute:</strong><br>
       Windows: <code>tracert <span data-config="serverDomain"></span></code><br>
       macOS/Linux: <code>traceroute <span data-config="serverDomain"></span></code><br>
-      Post the full output in <a href="#" data-discord>Discord</a>.
+      Post the full output in <a href="#" data-discord>Discord</a> — it shows exactly where packets are dropping and helps staff diagnose the routing issue.
     </div>
   </div>
 
