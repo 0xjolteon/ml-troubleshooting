@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antivirus Fix — Connection Help</title>
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+<header>
+  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dns.html">DNS Fix</a>
+    <a href="warp.html">WARP</a>
+    <a href="antivirus.html" class="active">Antivirus</a>
+    <a href="troubleshoot.html">Troubleshoot</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Antivirus</div>
+    <h1>Whitelist the <span>site in your antivirus</span></h1>
+    <p>Some antivirus products block .ml domains at the application level, separate from DNS. If changing DNS didn't help, your antivirus web shield may be the cause.</p>
+  </div>
+
+  <div class="section">
+    <h2>How to tell if antivirus is the problem</h2>
+    <p>If your browser shows a warning page <em>from your antivirus</em> (not just a generic browser error), that's a clear sign. Look for phrases like "Web Shield blocked this page" or the antivirus name in the warning.</p>
+    <p>You can also try loading the site in a private/incognito window — antivirus web shields usually still apply, so if it's still blocked there, DNS is probably not the issue.</p>
+  </div>
+
+  <div class="section">
+    <h2>Whitelist by antivirus <span class="tag">Pick yours</span></h2>
+
+    <div class="os-tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="av-avast">Avast / AVG</button>
+        <button class="tab-btn" data-tab="av-malwarebytes">Malwarebytes</button>
+        <button class="tab-btn" data-tab="av-defender">Windows Defender</button>
+        <button class="tab-btn" data-tab="av-kaspersky">Kaspersky</button>
+        <button class="tab-btn" data-tab="av-bitdefender">Bitdefender</button>
+      </div>
+
+      <!-- AVAST / AVG -->
+      <div class="tab-panel active" id="av-avast">
+        <ol class="steps">
+          <li><div>Open <strong>Avast</strong> (or AVG) and go to <strong>Menu → Settings</strong>.</div></li>
+          <li><div>Go to <strong>General → Exceptions</strong>.</div></li>
+          <li><div>Click <strong>Add Exception</strong>.</div></li>
+          <li><div>Enter the full URL of the server site and click <strong>Add Exception</strong> to confirm.</div></li>
+        </ol>
+        <div class="callout info">AVG's interface is nearly identical to Avast — follow the same steps.</div>
+      </div>
+
+      <!-- MALWAREBYTES -->
+      <div class="tab-panel" id="av-malwarebytes">
+        <ol class="steps">
+          <li><div>Open <strong>Malwarebytes</strong> and click <strong>Settings</strong> (gear icon).</div></li>
+          <li><div>Go to the <strong>Allow List</strong> tab.</div></li>
+          <li><div>Click <strong>Add</strong> and select <strong>Allow a Website</strong>.</div></li>
+          <li><div>Enter the server domain and click <strong>Confirm</strong>.</div></li>
+        </ol>
+        <div class="callout">If you're using <strong>Malwarebytes Browser Guard</strong> (the extension), you'll also need to click the extension icon in your browser, find the blocked entry, and click <strong>Trust this website</strong>.</div>
+      </div>
+
+      <!-- WINDOWS DEFENDER -->
+      <div class="tab-panel" id="av-defender">
+        <p>Windows Defender's SmartScreen is the most likely culprit here. It may show an "Unsafe website" warning that you can bypass.</p>
+        <ol class="steps">
+          <li><div>When you see the SmartScreen block page, click <strong>More information</strong> (or the small text at the bottom).</div></li>
+          <li><div>Click <strong>Go to the site anyway (unsafe)</strong>. This creates a one-time exception.</div></li>
+        </ol>
+        <p>To permanently whitelist in <strong>Windows Security</strong>:</p>
+        <ol class="steps">
+          <li><div>Open <strong>Windows Security → App &amp; browser control → Reputation-based protection settings</strong>.</div></li>
+          <li><div>SmartScreen for Microsoft Edge can be toggled here, but per-site whitelisting is limited. The most reliable fix is switching DNS as described in the <a href="dns.html">DNS guide</a>.</div></li>
+        </ol>
+      </div>
+
+      <!-- KASPERSKY -->
+      <div class="tab-panel" id="av-kaspersky">
+        <ol class="steps">
+          <li><div>Open <strong>Kaspersky</strong> and go to <strong>Settings → General → Exclusions and actions on object detection</strong>.</div></li>
+          <li><div>Click <strong>Manage Exclusions</strong>.</div></li>
+          <li><div>Click <strong>Add</strong> and enter the server URL.</div></li>
+          <li><div>Make sure to check the components you want to exclude — at minimum, select <strong>Web Anti-Virus</strong>.</div></li>
+          <li><div>Click <strong>Add</strong> to save.</div></li>
+        </ol>
+      </div>
+
+      <!-- BITDEFENDER -->
+      <div class="tab-panel" id="av-bitdefender">
+        <ol class="steps">
+          <li><div>Open <strong>Bitdefender</strong> and go to <strong>Protection → Online Threat Prevention</strong>.</div></li>
+          <li><div>Click <strong>Settings</strong> under Online Threat Prevention.</div></li>
+          <li><div>Scroll to <strong>Whitelist</strong> and click <strong>Manage Whitelist</strong>.</div></li>
+          <li><div>Click <strong>Add</strong>, enter the server URL, and click <strong>Add</strong> to confirm.</div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Browser extension blockers</h2>
+    <p>If your antivirus installs a <strong>browser extension</strong> (many do), that extension may block the site independently. Check your extensions (usually at <code>chrome://extensions</code> or <code>about:addons</code>) for anything from your antivirus vendor and look for a whitelist or allow-list option within it.</p>
+    <div class="callout info">Common culprits: Avast Online Security, AVG Online Security, Kaspersky Protection, Bitdefender TrafficLight.</div>
+  </div>
+
+  <div class="section">
+    <h2>Still blocked?</h2>
+    <p>If whitelisting didn't help, the block is likely at the DNS level from your ISP rather than from your antivirus. Head to the <a href="dns.html">DNS fix guide</a> or <a href="troubleshoot.html">run the troubleshooter</a> to diagnose further.</p>
+  </div>
+
+</div>
+
+<footer>
+  Maintained by the server staff. To suggest edits, open a pull request on the GitHub repo.
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

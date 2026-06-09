@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connection Help — MapleStory Private Server</title>
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+<header>
+  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="dns.html">DNS Fix</a>
+    <a href="warp.html">WARP</a>
+    <a href="antivirus.html">Antivirus</a>
+    <a href="troubleshoot.html">Troubleshoot</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Connection Guide</div>
+    <h1>Can't reach the server?<br><span>Let's fix that.</span></h1>
+    <p>Two common issues affect players: the site being blocked by DNS or antivirus, and frequent disconnections for players in Southeast Asia. Pick your problem below.</p>
+  </div>
+
+  <div class="card-grid">
+    <a class="card" href="dns.html">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">Site won't load</div>
+      <div class="card-desc">Fix DNS blocking caused by the .ml domain on Windows, macOS, and Linux.</div>
+    </a>
+    <a class="card" href="antivirus.html">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Antivirus blocking</div>
+      <div class="card-desc">Whitelist the site in common antivirus software like Avast, Malwarebytes, and Windows Defender.</div>
+    </a>
+    <a class="card" href="warp.html">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Frequent disconnects (SEA)</div>
+      <div class="card-desc">Set up Cloudflare WARP for free — often fixes both routing issues and the DNS block in one step.</div>
+    </a>
+    <a class="card" href="troubleshoot.html">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Not sure what's wrong?</div>
+      <div class="card-desc">Follow the interactive troubleshooting flowcharts to diagnose your issue by OS.</div>
+    </a>
+  </div>
+
+  <div class="section">
+    <h2>Why is this happening?</h2>
+    <p>The server uses a <strong>.ml domain</strong> (Mali's country-code TLD). Because .ml domains are frequently abused by phishing and malware sites, many antivirus products and ISPs — especially in Southeast Asia — automatically block or flag them regardless of the actual content.</p>
+    <p>This means you might see a browser error, a blank page, or an antivirus popup even though the site itself is completely safe.</p>
+    <div class="callout success">
+      <strong>SEA players:</strong> Installing <a href="warp.html">Cloudflare WARP</a> is the single fastest fix — it often resolves both the DNS blocking <em>and</em> disconnection issues in one step, for free.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Which guide should I use?</h2>
+    <p>Not sure? Go to <a href="troubleshoot.html">Troubleshoot</a> — it has flowcharts for each OS (Windows, macOS, Linux) that walk you through diagnosis step by step.</p>
+    <p>If you know your problem, jump straight to the relevant guide using the cards above or the navigation at the top of the page.</p>
+  </div>
+
+</div>
+
+<footer>
+  Maintained by the server staff · To suggest edits, open a pull request on the GitHub repo
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

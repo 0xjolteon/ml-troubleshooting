@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooter — Connection Help</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* Extra styles for flowchart page */
+    .chart-section {
+      margin-bottom: 3.5rem;
+    }
+    .chart-section h2 {
+      margin-bottom: 1rem;
+    }
+    .mermaid-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .os-selector {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .os-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.5rem 1.25rem;
+      border-radius: 99px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .os-pill:hover, .os-pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(247,147,30,0.08);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">🍁 MS Private Server — Connection Help</span>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dns.html">DNS Fix</a>
+    <a href="warp.html">WARP</a>
+    <a href="antivirus.html">Antivirus</a>
+    <a href="troubleshoot.html" class="active">Troubleshoot</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Troubleshooter</div>
+    <h1>Diagnose your <span>connection issue</span></h1>
+    <p>Follow the flowchart for your operating system. Each decision point links to the relevant fix guide. Start at the top and work your way down.</p>
+  </div>
+
+  <div class="os-selector">
+    <a class="os-pill active" href="#chart-general">🗺️ General</a>
+    <a class="os-pill" href="#chart-win">🪟 Windows</a>
+    <a class="os-pill" href="#chart-mac">🍎 macOS</a>
+    <a class="os-pill" href="#chart-linux">🐧 Linux</a>
+    <a class="os-pill" href="#chart-sea">⚡ SEA Disconnects</a>
+  </div>
+
+  <!-- GENERAL CHART -->
+  <div class="chart-section" id="chart-general">
+    <h2>General — What's my problem?</h2>
+    <p>Not sure where to start? Use this chart first to figure out which guide applies to you.</p>
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart TD
+    A([🚀 Start here]) --> B{Can you load\nthe server site?}
+    B -->|Yes, but\ndisconnecting| SEA[Go to SEA\nDisconnects chart]
+    B -->|No| C{What do you see\nin the browser?}
+    C -->|Antivirus\nwarning page| AV[🛡️ Antivirus is blocking\nGo to Antivirus guide]
+    C -->|Generic browser\nerror / blank page| D{Are you in\nSEA region?}
+    C -->|Site loads\nbut slowly| SEA
+    D -->|Yes| WARP[⚡ Try WARP first\nIt fixes both issues]
+    D -->|No| DNS[🌐 Try DNS fix\nChange to 1.1.1.1]
+    DNS --> E{Did the\nDNS fix work?}
+    E -->|Yes ✅| DONE([✅ Done! Enjoy the game])
+    E -->|No| AV
+    AV --> F{Did whitelisting\nfix it?}
+    F -->|Yes ✅| DONE
+    F -->|No| WARP
+    WARP --> G{Did WARP\nfix it?}
+    G -->|Yes ✅| DONE
+    G -->|No| HELP([💬 Ask in Discord\nfor further help])
+    SEA --> H{Did WARP\nhelp?}
+    H -->|Yes ✅| DONE
+    H -->|No| HELP
+
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    style WARP fill:#f7931e,color:#000,stroke:none,rx:8
+    style DNS fill:#f7931e,color:#000,stroke:none,rx:8
+    style AV fill:#f7931e,color:#000,stroke:none,rx:8
+    style SEA fill:#f7931e,color:#000,stroke:none,rx:8
+      </pre>
+    </div>
+  </div>
+
+  <!-- WINDOWS CHART -->
+  <div class="chart-section" id="chart-win">
+    <h2>🪟 Windows — Step by step</h2>
+    <p>Follow this chart if you're on Windows and the site won't load.</p>
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on Windows]) --> B{Does a browser\nerror name your\nantivirus?}
+    B -->|Yes| AV[Open Avast / Malwarebytes\n/ Defender and whitelist\nthe site URL]
+    B -->|No| C[Open Command Prompt\nRun: nslookup yourserver.ml]
+    C --> D{Did it return\nan IP address?}
+    D -->|No — DNS blocked| E[Change DNS to 1.1.1.1\nSettings → Network\n→ DNS → Manual]
+    D -->|Yes — DNS works| AV
+    E --> F[Run: ipconfig /flushdns\nthen reload site]
+    F --> G{Site loads now?}
+    G -->|Yes ✅| DONE([✅ Done!])
+    G -->|No| AV
+    AV --> H{Site loads now?}
+    H -->|Yes ✅| DONE
+    H -->|No| WARP[Install Cloudflare WARP\nfrom one.one.one.one\nand toggle it on]
+    WARP --> I{Site loads now?}
+    I -->|Yes ✅| DONE
+    I -->|No| HELP([💬 Post in Discord with:\nnslookup result + OS version\n+ antivirus name])
+
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+      </pre>
+    </div>
+    <div class="callout info">Tip: Run <code>nslookup yourserver.ml</code> in Command Prompt first. If it returns <code>can't find server</code>, DNS is the problem. If it returns an IP, antivirus is the problem.</div>
+  </div>
+
+  <!-- MACOS CHART -->
+  <div class="chart-section" id="chart-mac">
+    <h2>🍎 macOS — Step by step</h2>
+    <p>Follow this chart if you're on macOS and the site won't load.</p>
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on macOS]) --> B[Open Terminal\nRun: dig yourserver.ml]
+    B --> C{Did dig return\nan IP address?}
+    C -->|No — DNS blocked| D[System Settings → Network\n→ your connection\n→ Details → DNS tab\nAdd 1.1.1.1 and 1.0.0.1]
+    C -->|Yes — DNS works| AV
+    D --> E[Flush cache:\nsudo dscacheutil -flushcache\nsudo killall -HUP mDNSResponder]
+    E --> F{Site loads now?}
+    F -->|Yes ✅| DONE([✅ Done!])
+    F -->|No| AV[Check for antivirus\nbrowser extensions\nor security software\nand whitelist the site]
+    AV --> G{Site loads now?}
+    G -->|Yes ✅| DONE
+    G -->|No| WARP[Install Cloudflare WARP\nfrom the Mac App Store\nor one.one.one.one]
+    WARP --> H[Toggle WARP on\nVerify at:\ncloudflare.com/cdn-cgi/trace\nCheck warp=on]
+    H --> I{Site loads now?}
+    I -->|Yes ✅| DONE
+    I -->|No| HELP([💬 Post in Discord with:\ndig output + macOS version\n+ security software installed])
+
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+      </pre>
+    </div>
+    <div class="callout info">Tip: Run <code>dig yourserver.ml</code> in Terminal. Look for an <code>;; ANSWER SECTION:</code> with an IP address. No answer section means DNS is blocked.</div>
+  </div>
+
+  <!-- LINUX CHART -->
+  <div class="chart-section" id="chart-linux">
+    <h2>🐧 Linux — Step by step</h2>
+    <p>Follow this chart if you're on Linux and the site won't load.</p>
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart TD
+    A([Start — Site won't load on Linux]) --> B[Run: dig yourserver.ml\nor: nslookup yourserver.ml]
+    B --> C{Did it return\nan IP address?}
+    C -->|No — DNS blocked| D{Which DNS\nmanager are you using?}
+    C -->|Yes — DNS works| BROWSER[Check browser\nsecurity extensions\nand whitelist site]
+    D --> SD[systemd-resolved:\nEdit /etc/systemd/resolved.conf\nSet DNS=1.1.1.1 1.0.0.1\nRestart: sudo systemctl restart\nsystemd-resolved]
+    D --> NM[NetworkManager:\nnmcli con mod connection-name\nipv4.dns 1.1.1.1\nnmcli con up connection-name]
+    D --> RC[Static resolv.conf:\nEdit /etc/resolv.conf\nnameserver 1.1.1.1\nnameserver 1.0.0.1]
+    SD --> FLUSH[Flush cache:\nsudo systemd-resolve\n--flush-caches]
+    NM --> TEST
+    RC --> TEST
+    FLUSH --> TEST{Site loads now?}
+    TEST -->|Yes ✅| DONE([✅ Done!])
+    TEST -->|No| BROWSER
+    BROWSER --> G{Site loads now?}
+    G -->|Yes ✅| DONE
+    G -->|No| WARP[Install Cloudflare WARP\nSee WARP guide for\napt/yum install steps]
+    WARP --> H[warp-cli registration new\nwarp-cli connect\nwarp-cli status]
+    H --> I{Site loads now?}
+    I -->|Yes ✅| DONE
+    I -->|No| HELP([💬 Post in Discord with:\ndig output + distro name\n+ DNS manager used])
+
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+      </pre>
+    </div>
+    <div class="callout info">Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> — whichever returns <code>active</code> is your manager.</div>
+  </div>
+
+  <!-- SEA DISCONNECTS CHART -->
+  <div class="chart-section" id="chart-sea">
+    <h2>⚡ SEA — Frequent disconnects</h2>
+    <p>For players in Southeast Asia who connect fine but drop frequently during gameplay.</p>
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart TD
+    A([Start — Frequent disconnects\nin SEA region]) --> B{Is WARP\nalready installed?}
+    B -->|No| INSTALL[Install Cloudflare WARP\nfrom one.one.one.one\nand connect]
+    B -->|Yes| C{Is WARP\ncurrently on?}
+    C -->|No| TOGGLE[Toggle WARP on\nand test again]
+    C -->|Yes| MODE{Check WARP\nmode in settings}
+    INSTALL --> TEST1{Disconnects\nimproved?}
+    TEST1 -->|Yes ✅| DONE([✅ Done! Keep WARP on\nwhile playing])
+    TEST1 -->|No| MODE
+    TOGGLE --> TEST2{Disconnects\nimproved?}
+    TEST2 -->|Yes ✅| DONE
+    TEST2 -->|No| MODE
+    MODE --> |Switch to full WARP\nmode, not DNS-only| TEST3{Disconnects\nimproved?}
+    TEST3 -->|Yes ✅| DONE
+    TEST3 -->|No| TIME{Do disconnects\nhappen at a\nspecific time?}
+    TIME -->|Yes — peak hours| PEAK[This is likely\nISP congestion.\nTry playing at\noff-peak hours]
+    TIME -->|No — random| TRACE[Run traceroute to\nthe server IP and\npost results in Discord]
+    TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand country])
+    PEAK --> HELP
+
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    style INSTALL fill:#f7931e,color:#000,stroke:none,rx:8
+      </pre>
+    </div>
+    <div class="callout">
+      <strong>Running a traceroute:</strong>
+      <br>Windows: <code>tracert [server-ip]</code>
+      <br>macOS/Linux: <code>traceroute [server-ip]</code>
+      <br>Post the full output in Discord — it shows exactly where your connection is dropping.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Maintained by the server staff. To suggest edits, open a pull request on the GitHub repo.
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
