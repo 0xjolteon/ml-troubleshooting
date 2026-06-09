@@ -4,21 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DNS Fix — Connection Help</title>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="stylesheet" href="shared.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body>
 
-<header>
-  <span class="logo"><!-- filled by config.js --></span>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="dns.html" class="active">DNS Fix</a>
-    <a href="warp.html">WARP</a>
-    <a href="antivirus.html">Antivirus</a>
-    <a href="troubleshoot.html">Troubleshoot</a>
-  </nav>
-</header>
+<div data-component="header"></div>
 
 <div class="page-wrap">
 
@@ -35,7 +26,7 @@
     <h2>What is DNS and why does this work?</h2>
     <p>
       When you type a web address, your computer asks a <strong>DNS resolver</strong> to translate
-      it to an IP address. By default, this is your ISP's resolver — and your ISP may have flagged
+      it to an IP address. By default this is your ISP's resolver — and your ISP may have flagged
       <span data-config="serverTLD"></span> domains as suspicious. Switching to a public DNS resolver
       (like <strong>1.1.1.1</strong> from Cloudflare or <strong>8.8.8.8</strong> from Google)
       bypasses your ISP's blocklist entirely.
@@ -47,7 +38,6 @@
 
   <div class="section">
     <h2>Change your DNS <span class="tag">Pick your OS</span></h2>
-
     <div class="os-tabs">
       <div class="tab-buttons">
         <button class="tab-btn active" data-tab="tab-win">🪟 Windows</button>
@@ -55,7 +45,6 @@
         <button class="tab-btn" data-tab="tab-linux">🐧 Linux</button>
       </div>
 
-      <!-- WINDOWS -->
       <div class="tab-panel active" id="tab-win">
         <h3>Option A — Settings (Windows 10 / 11)</h3>
         <ol class="steps">
@@ -68,19 +57,15 @@ Alternate DNS:  1.0.0.1</code></pre>
           </div></li>
           <li><div>Click <strong>Save</strong> and reload the site.</div></li>
         </ol>
-
         <h3>Option B — Command Prompt (faster)</h3>
         <p>Open Command Prompt as Administrator and run:</p>
         <pre><code>netsh interface ip set dns name="Wi-Fi" static 1.1.1.1
 netsh interface ip add dns name="Wi-Fi" 1.0.0.1 index=2</code></pre>
         <div class="callout">Replace <code>Wi-Fi</code> with <code>Ethernet</code> if you're on a wired connection. Run <code>netsh interface show interface</code> to see your adapter names.</div>
-
         <h3>Option C — Flush DNS cache after changing</h3>
-        <p>If the site still doesn't load after switching DNS, flush your old cache:</p>
         <pre><code>ipconfig /flushdns</code></pre>
       </div>
 
-      <!-- MACOS -->
       <div class="tab-panel" id="tab-mac">
         <h3>System Settings (macOS Ventura / Sonoma)</h3>
         <ol class="steps">
@@ -93,55 +78,42 @@ netsh interface ip add dns name="Wi-Fi" 1.0.0.1 index=2</code></pre>
           </div></li>
           <li><div>Click <strong>OK</strong> and then <strong>Apply</strong>.</div></li>
         </ol>
-
         <h3>Terminal method</h3>
         <pre><code>sudo networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1</code></pre>
         <div class="callout">Replace <code>Wi-Fi</code> with <code>Ethernet</code> if wired. List your services with <code>networksetup -listallnetworkservices</code>.</div>
-
         <h3>Flush DNS cache after changing</h3>
         <pre><code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></pre>
       </div>
 
-      <!-- LINUX -->
       <div class="tab-panel" id="tab-linux">
         <div class="callout info">Linux DNS configuration varies by distro and whether you use systemd-resolved, NetworkManager, or a static resolv.conf. Check which one applies to you first.</div>
-
         <h3>Check which system you have</h3>
         <pre><code>systemctl is-active systemd-resolved
 systemctl is-active NetworkManager</code></pre>
-
         <h3>systemd-resolved (Ubuntu 20.04+, Fedora, Arch)</h3>
         <ol class="steps">
-          <li><div>Edit the config file:
-            <pre><code>sudo nano /etc/systemd/resolved.conf</code></pre>
-          </div></li>
+          <li><div>Edit the config file: <pre><code>sudo nano /etc/systemd/resolved.conf</code></pre></div></li>
           <li><div>Find or add the <code>[Resolve]</code> section and set:
             <pre><code>[Resolve]
 DNS=1.1.1.1 1.0.0.1
 FallbackDNS=8.8.8.8 8.8.4.4</code></pre>
           </div></li>
-          <li><div>Restart the service:
-            <pre><code>sudo systemctl restart systemd-resolved</code></pre>
-          </div></li>
+          <li><div>Restart the service: <pre><code>sudo systemctl restart systemd-resolved</code></pre></div></li>
         </ol>
-
         <h3>NetworkManager (most desktop distros)</h3>
         <pre><code>nmcli con mod "$(nmcli -t -f NAME con show --active | head -1)" \
   ipv4.dns "1.1.1.1 1.0.0.1" \
   ipv4.ignore-auto-dns yes
 nmcli con up "$(nmcli -t -f NAME con show --active | head -1)"</code></pre>
-
         <h3>Static /etc/resolv.conf (fallback)</h3>
         <div class="callout danger">Only use this if neither method above applies. On modern systems, resolv.conf is managed automatically and your edits may be overwritten on reboot.</div>
         <pre><code>sudo nano /etc/resolv.conf</code></pre>
         <p>Replace the contents with:</p>
         <pre><code>nameserver 1.1.1.1
 nameserver 1.0.0.1</code></pre>
-
         <h3>Flush DNS cache</h3>
         <pre><code># systemd-resolved
 sudo systemd-resolve --flush-caches
-
 # nscd (if installed)
 sudo systemctl restart nscd</code></pre>
       </div>
@@ -150,24 +122,22 @@ sudo systemctl restart nscd</code></pre>
 
   <div class="section">
     <h2>Verify it worked</h2>
-    <p>After changing your DNS, run this in your terminal to confirm you're using Cloudflare's resolver:</p>
+    <p>After changing your DNS, run this to confirm you're using Cloudflare's resolver:</p>
     <pre><code># Windows (Command Prompt)
 nslookup one.one.one.one
 
 # macOS / Linux
 dig +short whoami.cloudflare.com TXT @1.1.1.1</code></pre>
     <p>
-      If the change worked, the response will show Cloudflare's servers. Then try loading
-      <strong data-config="serverDomain"></strong> again — if it still doesn't work, check
-      the <a href="antivirus.html">antivirus guide</a> or <a href="troubleshoot.html">run the troubleshooter</a>.
+      Then try loading <strong data-config="serverDomain"></strong> again — if it still doesn't work,
+      check the <a href="antivirus.html">antivirus guide</a> or <a href="troubleshoot.html">run the troubleshooter</a>.
     </p>
   </div>
 
 </div>
 
-<footer><!-- filled by config.js --></footer>
+<div data-component="footer"></div>
 
-<script src="config.js"></script>
-<script src="shared.js"></script>
+<script src="loader.js"></script>
 </body>
 </html>

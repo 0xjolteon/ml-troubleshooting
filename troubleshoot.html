@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Troubleshooter — Connection Help</title>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="stylesheet" href="shared.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     .chart-section { margin-bottom: 3.5rem; }
     .chart-section h2 { margin-bottom: 1rem; }
@@ -25,11 +25,9 @@
       color: var(--muted);
       padding: 0.5rem 1.25rem;
       border-radius: 99px;
-      cursor: pointer;
-      font-family: var(--font-body);
+      text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
-      text-decoration: none;
       transition: all 0.15s;
     }
     .os-pill:hover, .os-pill.active {
@@ -41,26 +39,14 @@
 </head>
 <body>
 
-<header>
-  <span class="logo"><!-- filled by config.js --></span>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="dns.html">DNS Fix</a>
-    <a href="warp.html">WARP</a>
-    <a href="antivirus.html">Antivirus</a>
-    <a href="troubleshoot.html" class="active">Troubleshoot</a>
-  </nav>
-</header>
+<div data-component="header"></div>
 
 <div class="page-wrap">
 
   <div class="hero">
     <div class="hero-badge">Troubleshooter</div>
     <h1>Diagnose your <span>connection issue</span></h1>
-    <p>
-      Follow the flowchart for your operating system. Each decision point links to the
-      relevant fix guide. Start at the top and work your way down.
-    </p>
+    <p>Follow the flowchart for your OS. Each decision point links to the relevant fix. Start at the top.</p>
   </div>
 
   <div class="os-selector">
@@ -71,12 +57,10 @@
     <a class="os-pill" href="#chart-sea">⚡ SEA Disconnects</a>
   </div>
 
-  <!-- GENERAL CHART -->
   <div class="chart-section" id="chart-general">
     <h2>General — What's my problem?</h2>
-    <p>Not sure where to start? Use this chart first to figure out which guide applies to you.</p>
-    <div class="mermaid-wrap">
-      <pre class="mermaid">
+    <p>Not sure where to start? Use this chart first.</p>
+    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([🚀 Start here]) --> B{Can you load\nthe server site?}
     B -->|Yes, but\ndisconnecting| SEA[Go to SEA\nDisconnects chart]
@@ -98,7 +82,6 @@ flowchart TD
     SEA --> H{Did WARP\nhelp?}
     H -->|Yes ✅| DONE
     H -->|No| HELP
-
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
@@ -106,16 +89,13 @@ flowchart TD
     style DNS fill:#f7931e,color:#000,stroke:none,rx:8
     style AV fill:#f7931e,color:#000,stroke:none,rx:8
     style SEA fill:#f7931e,color:#000,stroke:none,rx:8
-      </pre>
-    </div>
+    </pre></div>
   </div>
 
-  <!-- WINDOWS CHART -->
   <div class="chart-section" id="chart-win">
     <h2>🪟 Windows — Step by step</h2>
     <p>Follow this chart if you're on Windows and the site won't load.</p>
-    <div class="mermaid-wrap">
-      <pre class="mermaid" id="chart-win-mermaid">
+    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start — Site won't load on Windows]) --> B{Does a browser\nerror name your\nantivirus?}
     B -->|Yes| AV[Open Avast / Malwarebytes\n/ Defender and whitelist\nthe site URL]
@@ -133,24 +113,20 @@ flowchart TD
     WARP --> I{Site loads now?}
     I -->|Yes ✅| DONE
     I -->|No| HELP([💬 Post in Discord with:\nnslookup result + OS version\n+ antivirus name])
-
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
-      </pre>
-    </div>
+    </pre></div>
     <div class="callout info">
       Tip: Run <code>nslookup <span data-config="serverDomain"></span></code> in Command Prompt first.
-      If it returns <code>can't find server</code>, DNS is the problem. If it returns an IP, antivirus is the problem.
+      No result = DNS problem. Got an IP = antivirus problem.
     </div>
   </div>
 
-  <!-- MACOS CHART -->
   <div class="chart-section" id="chart-mac">
     <h2>🍎 macOS — Step by step</h2>
     <p>Follow this chart if you're on macOS and the site won't load.</p>
-    <div class="mermaid-wrap">
-      <pre class="mermaid" id="chart-mac-mermaid">
+    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start — Site won't load on macOS]) --> B[Open Terminal\nRun: dig DOMAIN]
     B --> C{Did dig return\nan IP address?}
@@ -167,24 +143,20 @@ flowchart TD
     H --> I{Site loads now?}
     I -->|Yes ✅| DONE
     I -->|No| HELP([💬 Post in Discord with:\ndig output + macOS version\n+ security software installed])
-
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
-      </pre>
-    </div>
+    </pre></div>
     <div class="callout info">
       Tip: Run <code>dig <span data-config="serverDomain"></span></code> in Terminal.
-      Look for an <code>;; ANSWER SECTION:</code> with an IP address. No answer section means DNS is blocked.
+      No <code>;; ANSWER SECTION:</code> = DNS blocked.
     </div>
   </div>
 
-  <!-- LINUX CHART -->
   <div class="chart-section" id="chart-linux">
     <h2>🐧 Linux — Step by step</h2>
     <p>Follow this chart if you're on Linux and the site won't load.</p>
-    <div class="mermaid-wrap">
-      <pre class="mermaid">
+    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start — Site won't load on Linux]) --> B[Run: dig DOMAIN\nor: nslookup DOMAIN]
     B --> C{Did it return\nan IP address?}
@@ -206,21 +178,17 @@ flowchart TD
     H --> I{Site loads now?}
     I -->|Yes ✅| DONE
     I -->|No| HELP([💬 Post in Discord with:\ndig output + distro name\n+ DNS manager used])
-
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
-      </pre>
-    </div>
-    <div class="callout info">Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> — whichever returns <code>active</code> is your manager.</div>
+    </pre></div>
+    <div class="callout info">Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> — whichever returns <code>active</code> is yours.</div>
   </div>
 
-  <!-- SEA DISCONNECTS CHART -->
   <div class="chart-section" id="chart-sea">
     <h2>⚡ SEA — Frequent disconnects</h2>
     <p>For players in Southeast Asia who connect fine but drop frequently during gameplay.</p>
-    <div class="mermaid-wrap">
-      <pre class="mermaid">
+    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start — Frequent disconnects\nin SEA region]) --> B{Is WARP\nalready installed?}
     B -->|No| INSTALL[Install Cloudflare WARP\nfrom one.one.one.one\nand connect]
@@ -240,29 +208,26 @@ flowchart TD
     TIME -->|No — random| TRACE[Run traceroute to\nthe server IP and\npost results in Discord]
     TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand country])
     PEAK --> HELP
-
     style A fill:#f7931e,color:#000,stroke:none
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     style INSTALL fill:#f7931e,color:#000,stroke:none,rx:8
-      </pre>
-    </div>
+    </pre></div>
     <div class="callout">
       <strong>Running a traceroute:</strong><br>
       Windows: <code>tracert <span data-config="serverDomain"></span></code><br>
       macOS/Linux: <code>traceroute <span data-config="serverDomain"></span></code><br>
-      Post the full output in <a href="#" data-discord>Discord</a> — it shows exactly where your connection is dropping.
+      Post the full output in <a href="#" data-discord>Discord</a>.
     </div>
   </div>
 
 </div>
 
-<footer><!-- filled by config.js --></footer>
+<div data-component="footer"></div>
 
-<script src="config.js"></script>
-<script src="shared.js"></script>
+<script src="loader.js"></script>
 <script>
-  // Replace DOMAIN placeholder in mermaid charts with actual domain from config
+  // Inject domain into mermaid chart text before Mermaid renders
   document.addEventListener("DOMContentLoaded", () => {
     const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
     document.querySelectorAll("pre.mermaid").forEach(el => {

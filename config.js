@@ -10,13 +10,13 @@
 const SITE_CONFIG = {
 
   // ── Server identity ────────────────────────────────────────
-  serverName:   "MapleLegends",  // Displayed in header and page titles
+  serverName:   "MapleStory Private Server",  // Displayed in header and page titles
   gameName:     "MapleStory",                 // Used in guide text
   serverEmoji:  "🍁",                         // Emoji shown in the header logo
 
   // ── Domain ────────────────────────────────────────────────
   // The full domain players are trying to reach (used in nslookup/dig commands)
-  serverDomain: "legends.ml",
+  serverDomain: "yourserver.ml",
 
   // The TLD alone (used in explanatory text e.g. "the .ml domain")
   serverTLD:    ".ml",
@@ -28,8 +28,8 @@ const SITE_CONFIG = {
                 "block or flag it regardless of the actual site content.",
 
   // ── Community links ───────────────────────────────────────
-  discordInvite:  "https://discord.gg/maplelegends",   // Your Discord invite URL
-  discordChannel: "#support",               // Channel name to mention in guides
+  discordInvite:  "https://discord.gg/XXXXXXXX",   // Your Discord invite URL
+  discordChannel: "#connection-help",               // Channel name to mention in guides
   githubRepo:     "https://github.com/0xjolteon/ml-troubleshooting.github.io", // For footer "suggest edits" link
 
   // ── Region focus ──────────────────────────────────────────
@@ -38,7 +38,7 @@ const SITE_CONFIG = {
   highlightSEA: true,
 
   // ── Footer text ───────────────────────────────────────────
-  footerText: "Maintained by Kevin",
+  footerText: "Maintained by the server staff",
 
 };
 
