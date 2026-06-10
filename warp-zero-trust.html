@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WARP Zero Trust Setup — Connection Help</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* Screenshot styles */
+    .screenshot {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 1rem 0 1.5rem;
+      background: #010409;
+    }
+    .screenshot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .screenshot figcaption {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    /* Section number badges */
+    .phase {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .phase-num {
+      background: var(--accent);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.85rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .phase-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Inline note inside steps */
+    .step-note {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Narrow screenshots (client UI) */
+    .screenshot.narrow {
+      max-width: 480px;
+    }
+  </style>
+</head>
+<body>
+
+<div data-component="header"></div>
+
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Advanced Setup · Routing Fix</div>
+    <h1>WARP with <span>Split Tunneling</span></h1>
+    <p>
+      The standard WARP setup routes <em>all</em> your internet traffic through Cloudflare.
+      This guide sets up <strong>Cloudflare Zero Trust</strong> with split tunneling so that
+      only <span data-config="serverName"></span> traffic goes through WARP — everything else
+      uses your normal connection.
+    </p>
+  </div>
+
+  <div class="callout info">
+    <strong>Why bother?</strong> Sending all traffic through WARP can slow down other browsing
+    and streaming. Split tunneling gives you the routing benefit for the game server while
+    leaving the rest of your internet untouched.
+  </div>
+
+  <div class="callout">
+    <strong>What you'll need:</strong> a free Cloudflare account (sign up at cloudflare.com),
+    about 10–15 minutes, and a Windows PC. The Cloudflare One Client is also available for
+    macOS and Linux — the dashboard steps are identical across platforms.
+  </div>
+
+  <!-- ── PHASE 1: Install ── -->
+  <div class="phase">
+    <div class="phase-num">1</div>
+    <div class="phase-title">Install the Cloudflare One Client</div>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <div>
+        Download the Cloudflare One Client (this is the same app as WARP) from
+        <strong>one.one.one.one</strong> or directly from Cloudflare's download page.
+        <div class="step-note">Windows link: <code>downloads.cloudflareclient.com/v1/download/windows/ga</code></div>
+      </div>
+    </li>
+    <li><div>Run the installer and follow the prompts through to completion.</div></li>
+    <li>
+      <div>
+        When the app opens for the first time, it will ask <em>"What would you like to use WARP for?"</em>
+        — choose <strong>Cloudflare One Client</strong> (the right option). Do <strong>not</strong>
+        choose "Private browsing" — that mode doesn't support split tunneling.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/1__Cloudflare_One.png" alt="Cloudflare One Client setup screen showing two options: Private browsing and Cloudflare One Client" />
+    <figcaption>Choose "Cloudflare One Client" — this enables split tunneling via Zero Trust.</figcaption>
+  </figure>
+
+  <p>After selecting Cloudflare One Client, the app will show a disconnected state. Leave it here for now — you'll come back to connect it after configuring the dashboard.</p>
+
+  <figure class="screenshot narrow">
+    <img src="images/10__Cloudflare_One_Client_Authenticated.png" alt="Cloudflare One Client showing Disconnected state with a Connect button" />
+    <figcaption>The app is installed but not yet enrolled. You'll set this up in a few steps.</figcaption>
+  </figure>
+
+  <!-- ── PHASE 2: Zero Trust dashboard ── -->
+  <div class="phase">
+    <div class="phase-num">2</div>
+    <div class="phase-title">Set up Cloudflare Zero Trust</div>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <div>
+        Go to <strong>cloudflare.com</strong> and log in to your account (or create a free one).
+        In the left sidebar, find <strong>Protect &amp; Connect → Zero Trust</strong>.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/2__Cloudflare_Zero_Trust.png" alt="Cloudflare dashboard left sidebar showing Zero Trust under Protect and Connect section" />
+    <figcaption>Find Zero Trust in the left sidebar under "Protect &amp; Connect".</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 2">
+    <li>
+      <div>
+        The first time you open Zero Trust, you'll be asked to set a <strong>team name</strong>.
+        This is a unique identifier for your Zero Trust organization — pick something memorable
+        (e.g. your server name). This can't be easily changed later, so choose carefully.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/3__Cloudflare_Zero_Trust_Team_Name.png" alt="Cloudflare Zero Trust initial team name setup screen" />
+    <figcaption>Enter your team name. Players will need this name to enroll their devices.</figcaption>
+  </figure>
+
+  <figure class="screenshot">
+    <img src="images/4__Cloudflare_Zero_Trust_Team_Name_Changed.png" alt="Cloudflare Zero Trust Settings page showing team name and team domain" />
+    <figcaption>After saving, your team domain will be <code>yourteamname.cloudflareaccess.com</code>. Note this down.</figcaption>
+  </figure>
+
+  <!-- ── PHASE 3: Enrollment policy ── -->
+  <div class="phase">
+    <div class="phase-num">3</div>
+    <div class="phase-title">Configure Device Enrollment</div>
+  </div>
+
+  <p>
+    Before anyone can enroll their device into your Zero Trust organization, you need to create
+    an enrollment policy that defines who is allowed. For a private server, the simplest approach
+    is to allow enrollment by email — each player enrolls with their own email address.
+  </p>
+
+  <ol class="steps">
+    <li>
+      <div>
+        In the Zero Trust dashboard, go to <strong>Team &amp; Resources → Devices</strong>
+        in the left sidebar, then click the <strong>Management</strong> tab at the top.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/7__Cloudflare_Zero_Trust_Device_Enrollment.png" alt="Cloudflare Zero Trust Devices page showing Management tab with Device enrollment section" />
+    <figcaption>Navigate to Team &amp; Resources → Devices → Management tab.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 2">
+    <li>
+      <div>
+        Under <strong>Device enrollment</strong>, click <strong>Manage</strong>.
+        Then click <strong>Create a new policy</strong>.
+      </div>
+    </li>
+    <li>
+      <div>
+        Configure the policy:
+        <ul style="margin-top:0.5rem; padding-left:1.25rem; color:var(--muted)">
+          <li>Set <strong>Policy Name</strong> to something descriptive (e.g. "Allow email enrollment")</li>
+          <li>Set <strong>Action</strong> to <strong>Allow</strong></li>
+          <li>Under Policy rules, set the selector to <strong>Emails</strong> and enter your email address</li>
+          <li>Leave session duration as default</li>
+        </ul>
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/8__Enrollment_Policy.png" alt="Device enrollment policy builder showing Emails selector and policy name field" />
+    <figcaption>Create a policy with the Emails selector. Enter the email address(es) that should be allowed to enroll.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 4">
+    <li>
+      <div>
+        Click <strong>Save</strong> on the policy, then click <strong>Save</strong> again on the
+        overall enrollment settings page. Both saves are required — the policy won't take effect
+        if you only save the inner form.
+      </div>
+    </li>
+  </ol>
+
+  <div class="callout danger">
+    You must click Save <strong>twice</strong> — once for the policy itself, and once for the
+    enrollment settings page. Skipping the second save means the policy doesn't apply and
+    enrollment will fail.
+  </div>
+
+  <!-- ── PHASE 4: Enroll device ── -->
+  <div class="phase">
+    <div class="phase-num">4</div>
+    <div class="phase-title">Enroll Your Device</div>
+  </div>
+
+  <p>
+    Now go back to the Cloudflare One Client app you installed earlier.
+  </p>
+
+  <ol class="steps">
+    <li>
+      <div>
+        In the app, click <strong>Settings → Preferences → Account</strong> (or look for
+        "Login with Cloudflare Zero Trust"). You'll be prompted to enter your team name.
+      </div>
+    </li>
+    <li>
+      <div>
+        Enter the team name you set up in Step 2 (just the name, not the full domain —
+        e.g. <code>myservername</code> not <code>myservername.cloudflareaccess.com</code>),
+        then click <strong>Continue</strong>.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/5__Cloudflare_One_Setup_Team_Name.png" alt="Cloudflare One Client showing team name enrollment prompt with example team name entered" />
+    <figcaption>Enter just the team name — not the full domain.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 3">
+    <li>
+      <div>
+        A browser window will open showing a <strong>Cloudflare Access</strong> login page
+        asking for your email. Enter the same email address you put in the enrollment policy.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/6__Cloudflare_One_Setup_Enrollment_Browser.png" alt="Cloudflare Access browser login page asking for email address" />
+    <figcaption>Enter the email address from your enrollment policy.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 4">
+    <li>
+      <div>
+        Cloudflare will send a 6-digit one-time code to that email. Enter it in the browser
+        to verify your identity.
+      </div>
+    </li>
+    <li>
+      <div>
+        The browser will prompt you to open the Cloudflare One Client — allow it.
+        The app will show a waiting dialog while it receives confirmation.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/9__Cloudflare_Zero_Trust_Enrollment_Prompt.png" alt="Cloudflare One Client showing 'Awaiting external log in' dialog" />
+    <figcaption>The app waits while you complete the email verification in the browser.</figcaption>
+  </figure>
+
+  <p>
+    Once authenticated, the app will show your enrollment is complete. Your device is now
+    enrolled in your Zero Trust organization.
+  </p>
+
+  <!-- ── PHASE 5: Split tunneling ── -->
+  <div class="phase">
+    <div class="phase-num">5</div>
+    <div class="phase-title">Configure Split Tunneling</div>
+  </div>
+
+  <p>
+    This is the key step. By default, Zero Trust routes all traffic through Cloudflare.
+    You'll change it to <strong>Include mode</strong> — which means <em>only</em> the
+    domains and IPs you specify will go through WARP. Everything else (streaming, browsing,
+    Discord) uses your normal connection.
+  </p>
+
+  <ol class="steps">
+    <li>
+      <div>
+        In the Zero Trust dashboard, go to <strong>Team &amp; Resources → Devices → Device Profiles</strong>.
+        Click the <strong>⋯</strong> (three dots) next to the <strong>Default</strong> profile
+        and select <strong>Configure</strong>.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/11__Cloudflare_Zero_Trust_Device_Profile.png" alt="Zero Trust Device Profiles page showing the Default profile with a three-dot menu" />
+    <figcaption>Click the three dots on the Default profile and choose Configure.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 2">
+    <li>
+      <div>
+        Scroll down to the <strong>Split Tunnels</strong> section. You'll see it is set to
+        <strong>Exclude IPs and domains</strong> by default — this sends everything through
+        WARP except what's listed. You need to change this.
+      </div>
+    </li>
+    <li>
+      <div>
+        Change the mode to <strong>Include IPs and domains</strong>. This flips the logic —
+        now only traffic to destinations you add will go through WARP.
+        Click <strong>Manage</strong> to open the include list.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/12__Cloudflare_Zero_Trust_Split_Tunnel.png" alt="Split Tunnels section showing Include IPs and domains option selected with a Manage button" />
+    <figcaption>Switch to "Include IPs and domains" mode, then click Manage.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 4">
+    <li>
+      <div>
+        You'll now add the server's domains to the include list. For each entry, click
+        <strong>Add a destination</strong>, set the selector to <strong>Domain</strong>,
+        and add the following:
+        <ul style="margin-top:0.5rem; padding-left:1.25rem; color:var(--muted)">
+          <li><code data-config="serverDomain"></code> — the main server site</li>
+          <li><code>*.legends.ml</code> — wildcard to cover all subdomains</li>
+          <li>The game server's direct hostname or IP (if different from the website)</li>
+          <li>Any image hosts or CDN domains the forum uses</li>
+        </ul>
+        Give each entry a meaningful description so the list stays readable.
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot narrow">
+    <img src="images/13__Cloudflare_Zero_Trust_Split_Tunnel_Game_Server.png" alt="Manage Split Tunnels form showing Domain selector with ml.netcat.be entered and description MapleLegends game server" />
+    <figcaption>Add each domain individually. Use a wildcard (<code>*.yourdomain.ml</code>) to cover all subdomains at once.</figcaption>
+  </figure>
+
+  <ol class="steps" style="counter-reset: step 5">
+    <li>
+      <div>
+        Click <strong>Save destination</strong> after each entry. When you're done adding
+        all entries, your list should look something like this:
+      </div>
+    </li>
+  </ol>
+
+  <figure class="screenshot">
+    <img src="images/14__Cloudflare_Zero_Trust_Split_Tunnel_List.png" alt="Split Tunnel include list showing four entries: ml.netcat.be, *.legends.ml, iili.io, and freeimage.host" />
+    <figcaption>A complete include list. Only traffic to these destinations will go through WARP — everything else is unaffected.</figcaption>
+  </figure>
+
+  <!-- ── PHASE 6: Connect ── -->
+  <div class="phase">
+    <div class="phase-num">6</div>
+    <div class="phase-title">Connect and Test</div>
+  </div>
+
+  <ol class="steps">
+    <li><div>Open the Cloudflare One Client and click <strong>Connect</strong>. The toggle turns blue when active.</div></li>
+    <li>
+      <div>
+        Try loading the server site. Because only your specified domains are tunneled through WARP,
+        you should now be able to reach it while the rest of your internet works exactly as before.
+      </div>
+    </li>
+    <li>
+      <div>
+        To verify split tunneling is working correctly, load a regular site like
+        <strong>cloudflare.com/cdn-cgi/trace</strong> — it should show <code>warp=off</code>,
+        confirming that general traffic is <em>not</em> going through WARP.
+        Then check a server-specific URL — that traffic will be tunneled.
+      </div>
+    </li>
+  </ol>
+
+  <div class="callout success">
+    <strong>You're done!</strong> WARP is now active only for <span data-config="serverName"></span>
+    traffic. You won't notice any difference for everything else — streaming, Discord, and other
+    games all continue using your regular connection.
+  </div>
+
+  <div class="section" style="margin-top:2.5rem">
+    <h2>Sharing this setup with other players</h2>
+    <p>
+      Each player needs to create their own free Cloudflare account and repeat this process.
+      However, you only need to create the Zero Trust organization once — other players can
+      enroll into <em>your</em> organization instead of making their own, as long as you add
+      their email to the enrollment policy.
+    </p>
+    <p>
+      To add more players: go to <strong>Devices → Management → Device enrollment → Manage</strong>,
+      open your policy, and add their email address under the Emails rule. They can then enroll
+      using your team name and their own email.
+    </p>
+    <div class="callout info">
+      The free Cloudflare Zero Trust plan supports up to 50 users — more than enough for a
+      private server community.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Troubleshooting</h2>
+    <h3>Enrollment fails or says "team not found"</h3>
+    <p>Double-check you're entering just the team name (e.g. <code>myserver</code>), not the full domain (<code>myserver.cloudflareaccess.com</code>).</p>
+
+    <h3>Email code never arrives</h3>
+    <p>Check your spam folder. Codes expire after a few minutes — if it expired, restart the enrollment flow.</p>
+
+    <h3>Site still blocked after connecting WARP</h3>
+    <p>Make sure you added the correct domain to the split tunnel include list and saved. Also try disconnecting and reconnecting WARP after making changes to the dashboard — the client may cache the old config for a few minutes.</p>
+
+    <h3>All my internet went through WARP (split tunnel not working)</h3>
+    <p>Confirm the Split Tunnel mode is set to <strong>Include</strong> (not Exclude). The default is Exclude — if you didn't change it, all traffic routes through WARP.</p>
+
+    <h3>Still having issues?</h3>
+    <p>Ask in <a href="#" data-discord>our Discord</a> in the <strong data-config="discordChannel"></strong> channel with a description of where the setup failed.</p>
+  </div>
+
+</div>
+
+<div data-component="footer"></div>
+
+<script src="loader.js"></script>
+</body>
+</html>

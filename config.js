@@ -32,9 +32,13 @@ const SITE_CONFIG = {
   discordChannel: "#connection-help",               // Channel name to mention in guides
   githubRepo:     "https://github.com/0xjolteon/ml-troubleshooting.github.io", // For footer "suggest edits" link
 
-  // ── Region focus ──────────────────────────────────────────
-  // Set to true to show SEA-specific callouts more prominently
-  // (e.g. the green callout on the home page recommending WARP first)
+  // ── Cloudflare Zero Trust ─────────────────────────────────
+  // Your Zero Trust team name (the short name, not the full .cloudflareaccess.com domain)
+  // Players enter this when enrolling their device in the WARP Zero Trust guide
+  zeroTrustTeamName: "yourteamname",
+
+  // ── Routing callout visibility ────────────────────────────
+  // Set to false to hide the "experiencing disconnects? try WARP" callout boxes
   highlightSEA: true,
 
   // ── Footer text ───────────────────────────────────────────
