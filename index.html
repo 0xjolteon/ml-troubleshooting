@@ -40,7 +40,11 @@
       color: var(--accent);
       margin-bottom: 0.6rem;
     }
-    .problem-card .desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+    .problem-card .desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
     .problem-card .causes {
       margin-top: 0.85rem;
       padding-top: 0.85rem;
@@ -83,6 +87,7 @@
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 0.75rem;
       margin-top: 1rem;
+      margin-bottom: 3rem;
     }
     .ref-card {
       background: var(--surface);
@@ -109,10 +114,6 @@
   <div class="hero">
     <div class="hero-badge">Connection Help</div>
     <h1>What's going wrong?<br><span>Pick your problem.</span></h1>
-    <p>
-      There are two distinct issues players run into. They have different causes and
-      different fixes — pick the one that matches what you're experiencing.
-    </p>
   </div>
 
   <div class="problem-grid">
@@ -151,39 +152,9 @@
 
   </div>
 
-  <div class="section">
-    <h2>Why does the site get blocked?</h2>
-    <p>
-      The server uses a <strong><span data-config="serverTLD"></span> domain</strong>.
-      <span data-config="tldExplainer"></span>
-    </p>
-    <p>
-      This is a reputation problem, not a content problem — the site is completely safe.
-      The fix is either changing where your computer looks up domain names (DNS),
-      telling your antivirus to allow it, or encrypting your traffic so your ISP
-      can't inspect and block it.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2>Why do disconnects happen?</h2>
-    <p>
-      The game server is hosted in <strong>Montreal (OVH)</strong>. Depending on where
-      you are and who your ISP is, the network path between you and Montreal may be
-      inefficient — packets take unnecessary hops, hit congested links, or experience
-      high latency. This isn't something we can control on our end.
-    </p>
-    <p>
-      Cloudflare WARP can help by rerouting your traffic through Cloudflare's network,
-      which often has a cleaner path to the server. It doesn't help everyone equally —
-      if your existing route to Montreal is already good, WARP may actually make things
-      slightly worse. It's worth testing.
-    </p>
-  </div>
-
   <div class="divider"><span>Reference guides</span></div>
-  <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.5rem">
-    Looking for a specific fix rather than a guided walkthrough?
+  <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.75rem">
+    Know what you need? Jump straight to a specific guide.
   </p>
   <div class="ref-grid">
     <a class="ref-card" href="dns.html">🌐 DNS settings</a>
