@@ -4,11 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cloudflare WARP — Connection Help</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <link rel="stylesheet" href="shared.css" />
 </head>
 <body>
 
-<div data-component="header"></div>
+<header>
+  <span class="logo"><!-- filled by config.js --></span>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dns.html">DNS Fix</a>
+    <a href="warp.html" class="active">WARP</a>
+    <a href="antivirus.html">Antivirus</a>
+    <a href="troubleshoot.html">Troubleshoot</a>
+  </nav>
+</header>
 
 <div class="page-wrap">
 
@@ -38,12 +48,13 @@
     </div>
     <div class="callout info">
       WARP is completely free. There is a paid tier (WARP+) with faster speeds, but the free
-      version is sufficient for gaming and fixing the issues described here.
+      version is sufficient for gaming and fixing the connection issues described here.
     </div>
   </div>
 
   <div class="section">
     <h2>Install WARP <span class="tag">Pick your OS</span></h2>
+
     <div class="os-tabs">
       <div class="tab-buttons">
         <button class="tab-btn active" data-tab="warp-win">🪟 Windows</button>
@@ -51,21 +62,23 @@
         <button class="tab-btn" data-tab="warp-linux">🐧 Linux</button>
       </div>
 
+      <!-- WINDOWS -->
       <div class="tab-panel active" id="warp-win">
         <ol class="steps">
-          <li><div>Download the installer from <strong>one.one.one.one</strong> — click the Windows download button.</div></li>
+          <li><div>Download the installer from <strong>one.one.one.one</strong> — click the Windows download button. (If that page won't load, search "Cloudflare WARP download".)</div></li>
           <li><div>Run the downloaded <code>.exe</code> installer — just click through the defaults.</div></li>
           <li><div>Once installed, WARP appears in your system tray (bottom-right). Click the icon to open it.</div></li>
-          <li><div>Click the large toggle to connect. The button turns blue and shows <strong>Connected</strong>.</div></li>
+          <li><div>Click the large toggle to connect. The button turns blue and shows <strong>Connected</strong> when it's working.</div></li>
           <li><div>Try loading <strong data-config="serverDomain"></strong> again.</div></li>
         </ol>
         <div class="callout">If WARP was blocked by antivirus during install, see the <a href="antivirus.html">antivirus guide</a> to whitelist it first.</div>
       </div>
 
+      <!-- MACOS -->
       <div class="tab-panel" id="warp-mac">
         <ol class="steps">
           <li><div>Download the macOS client from <strong>one.one.one.one</strong> or the Mac App Store (search "1.1.1.1").</div></li>
-          <li><div>Open the downloaded <code>.pkg</code> file and follow the installer. Click <strong>Allow</strong> when prompted for VPN configuration — this is normal.</div></li>
+          <li><div>Open the downloaded <code>.pkg</code> file and follow the installer. You'll be prompted to allow a VPN configuration — click <strong>Allow</strong>. This is normal and required for WARP to work.</div></li>
           <li><div>WARP appears in your menu bar (top-right). Click the icon.</div></li>
           <li><div>Click the toggle to connect. It will turn blue when connected.</div></li>
           <li><div>Try loading <strong data-config="serverDomain"></strong> again.</div></li>
@@ -73,9 +86,13 @@
         <div class="callout info">macOS may ask for your password when installing the VPN profile. This is expected — WARP uses a VPN tunnel interface even though it's not a traditional VPN.</div>
       </div>
 
+      <!-- LINUX -->
       <div class="tab-panel" id="warp-linux">
+        <p>WARP on Linux is installed via Cloudflare's package repository. Choose your distro:</p>
+
         <h3>Debian / Ubuntu</h3>
-        <pre><code>curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | \
+        <pre><code># Add Cloudflare's GPG key and repo
+curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | \
   sudo gpg --yes --dearmor -o /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
 
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] \
@@ -83,15 +100,25 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyr
   sudo tee /etc/apt/sources.list.d/cloudflare-client.list
 
 sudo apt update && sudo apt install cloudflare-warp</code></pre>
+
         <h3>Fedora / RHEL / CentOS</h3>
         <pre><code>curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | \
   sudo tee /etc/yum.repos.d/cloudflare-warp.repo
+
 sudo yum install cloudflare-warp</code></pre>
+
         <h3>Connect after installing (all distros)</h3>
-        <pre><code>warp-cli registration new
+        <pre><code># Register the client (first time only)
+warp-cli registration new
+
+# Connect
 warp-cli connect
+
+# Check status
 warp-cli status</code></pre>
-        <div class="callout success">You should see <strong>Status update: Connected</strong>.</div>
+
+        <div class="callout success">You should see <strong>Status update: Connected</strong>. If you see an error, run <code>warp-cli disconnect</code> then <code>warp-cli connect</code> again.</div>
+
         <h3>Disconnect when not needed</h3>
         <pre><code>warp-cli disconnect</code></pre>
       </div>
@@ -100,22 +127,29 @@ warp-cli status</code></pre>
 
   <div class="section">
     <h2>Confirm WARP is working</h2>
-    <p>Visit <strong>cloudflare.com/cdn-cgi/trace</strong> in your browser and look for <code>warp=on</code>.</p>
+    <p>
+      Visit <strong>cloudflare.com/cdn-cgi/trace</strong> in your browser.
+      Look for the line that says <code>warp=on</code>. If it shows <code>warp=off</code>,
+      open the WARP app and try toggling it off and back on.
+    </p>
+    <pre><code>warp=on          ← This should say "on"</code></pre>
   </div>
 
   <div class="section">
     <h2>Still disconnecting after WARP?</h2>
+    <p>WARP helps with routing issues caused by your ISP's path to our server, but it won't fix everything. If you're still experiencing disconnects:</p>
     <ul class="steps">
-      <li><div>In the app settings, switch to full <strong>WARP mode</strong> rather than DNS-only mode — it routes more traffic and typically helps more with gaming stability.</div></li>
-      <li><div>Check if disconnects only happen at specific times — peak-hour ISP congestion can't always be fully overcome by WARP.</div></li>
-      <li><div>Run the <a href="troubleshoot.html">troubleshooter</a> for a detailed diagnosis, or ask in <a href="#" data-discord>our Discord</a> in <strong data-config="discordChannel"></strong>.</div></li>
+      <li><div>Try switching WARP's mode — in the app settings, look for <strong>WARP mode</strong> vs <strong>DNS-only mode</strong>. Full WARP mode routes more traffic and typically helps more with gaming stability.</div></li>
+      <li><div>Check if the issue only happens at specific times of day — peak hours can cause congestion that WARP can't fully overcome.</div></li>
+      <li><div>Run the <a href="troubleshoot.html">troubleshooter</a> for a more detailed diagnosis, or ask in <a href="#" data-discord>our Discord</a> in <strong data-config="discordChannel"></strong>.</div></li>
     </ul>
   </div>
 
 </div>
 
-<div data-component="footer"></div>
+<footer><!-- filled by config.js --></footer>
 
-<script src="loader.js"></script>
+<script src="config.js"></script>
+<script src="shared.js"></script>
 </body>
 </html>

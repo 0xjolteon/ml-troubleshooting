@@ -8,7 +8,16 @@
 </head>
 <body>
 
-<div data-component="header"></div>
+<header>
+  <span class="logo"><!-- filled by config.js --></span>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="dns.html">DNS Fix</a>
+    <a href="warp.html">WARP</a>
+    <a href="antivirus.html">Antivirus</a>
+    <a href="troubleshoot.html">Troubleshoot</a>
+  </nav>
+</header>
 
 <div class="page-wrap">
 
@@ -68,6 +77,10 @@
       for each OS (Windows, macOS, Linux) that walk you through diagnosis step by step.
     </p>
     <p>
+      If you know your problem, jump straight to the relevant guide using the cards
+      above or the navigation at the top of the page.
+    </p>
+    <p>
       Still stuck? Ask in <a href="#" data-discord>our Discord</a>
       in the <strong data-config="discordChannel"></strong> channel.
     </p>
@@ -75,8 +88,9 @@
 
 </div>
 
-<div data-component="footer"></div>
+<footer><!-- filled by config.js --></footer>
 
-<script src="loader.js"></script>
+<script src="config.js"></script>
+<script src="shared.js"></script>
 </body>
 </html>
