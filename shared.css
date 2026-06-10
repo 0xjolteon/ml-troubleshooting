@@ -31,7 +31,7 @@ header {
   padding: 0 2rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   height: 56px;
   position: sticky;
   top: 0;
@@ -44,6 +44,8 @@ header {
   color: var(--accent);
   letter-spacing: -0.02em;
   white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 nav {
@@ -51,6 +53,7 @@ nav {
   gap: 0.25rem;
   margin-left: auto;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 nav a {

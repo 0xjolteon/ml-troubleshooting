@@ -86,9 +86,12 @@ flowchart TD
     TEST2 -->|No| AVFIX
     AVFIX --> TEST3{Site loads now?}
     TEST3 -->|Yes ✅| DONE
-    TEST3 -->|No — ISP doing\ndeep inspection| WARP[Install Cloudflare WARP\nThis encrypts all traffic\nso the block can't see it]
-    NORTN --> WARP
-    WARP --> TEST4{Site loads now?}
+    TEST3 -->|No — ISP doing\ndeep inspection| VPN{Do you have\na paid VPN?}
+    NORTN --> VPN
+    VPN -->|Yes| VPNON[Connect your VPN\nand try again]
+    VPN -->|No — use WARP| WARP[Install Cloudflare WARP\nfree encrypted tunnel\none.one.one.one]
+    VPNON --> TEST4{Site loads now?}
+    WARP --> TEST4
     TEST4 -->|Yes ✅| DONE
     TEST4 -->|No| HELP([💬 Post in Discord:\nnslookup result + AV name\n+ ISP name])
     style A fill:#f7931e,color:#000,stroke:none
@@ -126,8 +129,11 @@ flowchart TD
     TEST2 -->|No| AVFIX
     AVFIX --> TEST3{Site loads now?}
     TEST3 -->|Yes ✅| DONE
-    TEST3 -->|No| WARP[Install Cloudflare WARP\nfrom one.one.one.one\nor Mac App Store]
-    WARP --> TEST4{Site loads now?}
+    TEST3 -->|No| VPN{Do you have\na paid VPN?}
+    VPN -->|Yes| VPNON[Connect your VPN\nand try again]
+    VPN -->|No — use WARP| WARP[Install Cloudflare WARP\nfrom one.one.one.one\nor Mac App Store]
+    VPNON --> TEST4{Site loads now?}
+    WARP --> TEST4
     TEST4 -->|Yes ✅| DONE
     TEST4 -->|No| HELP([💬 Post in Discord:\ndig output + AV name\n+ ISP name])
     style A fill:#f7931e,color:#000,stroke:none
@@ -165,8 +171,11 @@ flowchart TD
     TEST2 -->|No| BROWSER
     BROWSER --> TEST3{Site loads now?}
     TEST3 -->|Yes ✅| DONE
-    TEST3 -->|No| WARP[Install Cloudflare WARP\nSee WARP guide for\napt/yum install steps]
-    WARP --> TEST4{Site loads now?}
+    TEST3 -->|No| VPN{Do you have\na paid VPN?}
+    VPN -->|Yes| VPNON[Connect your VPN\nand try again]
+    VPN -->|No — use WARP| WARP[Install Cloudflare WARP\nSee WARP guide for\napt/yum install steps]
+    VPNON --> TEST4{Site loads now?}
+    WARP --> TEST4
     TEST4 -->|Yes ✅| DONE
     TEST4 -->|No| HELP([💬 Post in Discord:\ndig output + distro\n+ DNS manager used])
     style A fill:#f7931e,color:#000,stroke:none
@@ -226,21 +235,44 @@ flowchart TD
   </div>
 
   <div class="section">
-    <h2>Fix 4 — Cloudflare WARP (last resort)</h2>
+    <h2>Fix 4 — Use a VPN you already have</h2>
     <p>
-      If DNS changes and antivirus whitelisting haven't worked, your ISP may be performing
-      deep packet inspection — blocking the connection at the traffic level, not just the DNS level.
-      Cloudflare WARP encrypts your traffic end-to-end, which prevents this kind of inspection.
+      If you already subscribe to a paid VPN (Mullvad, ProtonVPN, ExpressVPN, NordVPN, etc.),
+      connecting it is the fastest path from here — it encrypts your traffic end-to-end, which
+      bypasses both ISP DNS blocking and deep packet inspection in one step.
     </p>
     <p>
-      WARP is free and takes about 5 minutes to set up. Once connected, it also uses Cloudflare's
-      DNS (1.1.1.1) automatically, so it replaces Fix 1 as well.
+      Just connect your VPN and try loading the site. If it works, you're done — no further
+      configuration needed.
+    </p>
+    <div class="callout danger">
+      <strong>Free VPNs are not recommended.</strong> Free VPN services typically have bandwidth
+      caps, slow speeds, unreliable uptime, and in many cases fund themselves by logging and
+      selling your traffic data — the opposite of what a VPN is supposed to do. If you don't
+      have a paid VPN, use <strong>Cloudflare WARP</strong> (Fix 5) instead — it's genuinely
+      free, operated by a reputable company, and purpose-built for this kind of use.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Fix 5 — Cloudflare WARP (free alternative to a VPN)</h2>
+    <p>
+      If you don't have a paid VPN, or if fixes 1–3 haven't worked, Cloudflare WARP is the
+      recommended free option. It encrypts your traffic end-to-end — blocking deep packet
+      inspection — and automatically uses Cloudflare's DNS (1.1.1.1), so it replaces Fix 1 as well.
+    </p>
+    <p>
+      WARP is free, maintained by Cloudflare (a major internet infrastructure company), and
+      takes about 5 minutes to set up. It is not a traditional VPN — it doesn't hide your IP
+      or route through servers in other countries — but for the purpose of bypassing a domain
+      block, it works just as well.
     </p>
     <p>→ <a href="warp.html">Cloudflare WARP setup guide</a></p>
     <div class="callout">
-      If you're already planning to use WARP for disconnect issues too, you may as well jump
-      straight to the <a href="warp-zero-trust.html">Zero Trust split tunneling setup</a> —
-      it handles both problems at once while only routing server traffic through WARP.
+      If you're also experiencing game disconnects and want to solve both problems at once,
+      skip straight to the <a href="warp-zero-trust.html">Zero Trust split tunneling setup</a> —
+      it handles site access and routing in one configuration, while only sending server
+      traffic through WARP and leaving everything else alone.
     </div>
   </div>
 
