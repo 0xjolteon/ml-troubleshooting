@@ -49,7 +49,7 @@ const SITE_CONFIG = {
 // ── DO NOT EDIT BELOW THIS LINE ───────────────────────────────
 // This applies all config values to the page automatically.
 
-document.addEventListener("DOMContentLoaded", () => {
+(function applyConfig() {
 
   // Helper: replace text content of all matching elements
   const fill = (selector, value) => {
@@ -104,4 +104,4 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el.textContent.trim()) el.textContent = "Join our Discord";
   });
 
-});
+})();
