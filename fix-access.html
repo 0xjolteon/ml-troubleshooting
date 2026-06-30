@@ -244,34 +244,44 @@ flowchart TD
     <script src="loader.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
 
-            // Save each chart's raw source + substitute the domain BEFORE mermaid
-            // touches anything, and track which ones have actually been rendered
-            // while visible (rendering into a display:none panel gives mermaid a
-            // zero-width container, which is what was producing the broken
-            // macOS/Linux charts).
+            // Save each chart's raw source (with the literal "DOMAIN" placeholder
+            // still in it) before mermaid touches anything.
             const chartSources = new Map(); // panel id -> raw mermaid source
             document.querySelectorAll(".tab-panel pre.mermaid").forEach(pre => {
                 const panel = pre.closest(".tab-panel");
-                chartSources.set(panel.id, pre.textContent.replaceAll("DOMAIN", domain));
+                chartSources.set(panel.id, pre.textContent);
             });
 
             const renderedPanels = new Set();
+
+            // config.js loads asynchronously via loader.js, well after
+            // DOMContentLoaded, so SITE_CONFIG may not exist yet the moment
+            // this script runs. Poll briefly instead of reading it once.
+            function getDomain(onReady) {
+                if (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.serverDomain) {
+                    onReady(SITE_CONFIG.serverDomain);
+                } else {
+                    setTimeout(() => getDomain(onReady), 50);
+                }
+            }
 
             function renderChart(panelId) {
                 if (renderedPanels.has(panelId)) return;
                 const panel = document.getElementById(panelId);
                 const wrap = panel && panel.querySelector(".mermaid-wrap");
-                const source = chartSources.get(panelId);
-                if (!wrap || !source || typeof mermaid === "undefined") return;
+                const rawSource = chartSources.get(panelId);
+                if (!wrap || !rawSource || typeof mermaid === "undefined") return;
 
-                wrap.innerHTML = `<pre class="mermaid">${source}</pre>`;
-                mermaid.run({
-                    nodes: wrap.querySelectorAll(".mermaid")
-                }).then(() => {
-                    renderedPanels.add(panelId);
-                }).catch(err => console.warn("[mermaid] render failed for", panelId, err));
+                getDomain(domain => {
+                    const source = rawSource.replaceAll("DOMAIN", domain);
+                    wrap.innerHTML = `<pre class="mermaid">${source}</pre>`;
+                    mermaid.run({
+                        nodes: wrap.querySelectorAll(".mermaid")
+                    }).then(() => {
+                        renderedPanels.add(panelId);
+                    }).catch(err => console.warn("[mermaid] render failed for", panelId, err));
+                });
             }
 
             // Render whichever panel starts active (Windows), then render the
