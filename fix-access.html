@@ -8,44 +8,8 @@
     <link rel="stylesheet" href="shared.css" />
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
-        .chart-section {
-            margin-bottom: 3.5rem;
-        }
-        
         .mermaid-wrap {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem 1rem;
-            margin: 1rem 0;
-            overflow-x: auto;
             text-align: center;
-        }
-        
-        .os-selector {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-        
-        .os-pill {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 0.5rem 1.25rem;
-            border-radius: 99px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.15s;
-        }
-        
-        .os-pill:hover,
-        .os-pill.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(247, 147, 30, 0.08);
         }
     </style>
 </head>
@@ -70,17 +34,19 @@
         </div>
 
         <!-- ── OS FLOWCHARTS ── -->
-        <div class="os-selector">
-            <a class="os-pill active" href="#chart-win">🪟 Windows</a>
-            <a class="os-pill" href="#chart-mac">🍎 macOS</a>
-            <a class="os-pill" href="#chart-linux">🐧 Linux</a>
-        </div>
+        <div class="section">
+            <h2>Find your fix <span class="tag">Pick your OS</span></h2>
+            <div class="os-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="chart-win">🪟 Windows</button>
+                    <button class="tab-btn" data-tab="chart-mac">🍎 macOS</button>
+                    <button class="tab-btn" data-tab="chart-linux">🐧 Linux</button>
+                </div>
 
-        <!-- WINDOWS -->
-        <div class="chart-section" id="chart-win">
-            <h2>🪟 Windows</h2>
-            <p>Follow this chart step by step. Each fix is faster than the next - try them in order.</p>
-            <div class="mermaid-wrap"><pre class="mermaid">
+                <!-- WINDOWS -->
+                <div class="tab-panel active" id="chart-win">
+                    <p>Follow this chart step by step. Each fix is faster than the next - try them in order.</p>
+                    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start - Site won't load on Windows]) --> AV0{Does your browser show\nan antivirus warning\nor your AV popped up?}
     AV0 -->|Yes| AVFIX[Whitelist the site\nin your antivirus\nSee Antivirus guide]
@@ -108,18 +74,17 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-            <div class="callout info">
-                <strong>Norton / ISP deep inspection note:</strong> Some antivirus products (notably Norton) and some ISPs perform deep packet inspection - they can block a domain even when your DNS is correct, because they inspect the traffic itself
-                rather than just the lookup. In this case, changing DNS alone won't help. Jump straight to
-                <a href="warp.html">Cloudflare WARP</a>, which encrypts your traffic end-to-end so it can't be inspected.
-            </div>
-        </div>
+                    <div class="callout info">
+                        <strong>Norton / ISP deep inspection note:</strong> Some antivirus products (notably Norton) and some ISPs perform deep packet inspection - they can block a domain even when your DNS is correct, because they inspect the traffic
+                        itself rather than just the lookup. In this case, changing DNS alone won't help. Jump straight to
+                        <a href="warp.html">Cloudflare WARP</a>, which encrypts your traffic end-to-end so it can't be inspected.
+                    </div>
+                </div>
 
-        <!-- MACOS -->
-        <div class="chart-section" id="chart-mac">
-            <h2>🍎 macOS</h2>
-            <p>Follow this chart step by step.</p>
-            <div class="mermaid-wrap"><pre class="mermaid">
+                <!-- MACOS -->
+                <div class="tab-panel" id="chart-mac">
+                    <p>Follow this chart step by step.</p>
+                    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start - Site won't load on macOS]) --> AV0{Does your browser show\nan antivirus or\nsecurity warning?}
     AV0 -->|Yes| AVFIX[Whitelist the site\nin your security software\nSee Antivirus guide]
@@ -147,17 +112,16 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-            <div class="callout info">
-                <strong>Reading the dig result:</strong> Run <code>dig <span data-config="serverDomain"></span></code> in Terminal. If you see a <code>;; ANSWER SECTION:</code> with an IP address, DNS is working - the block is at the antivirus or ISP
-                traffic level. No answer section means DNS is blocked.
-            </div>
-        </div>
+                    <div class="callout info">
+                        <strong>Reading the dig result:</strong> Run <code>dig <span data-config="serverDomain"></span></code> in Terminal. If you see a <code>;; ANSWER SECTION:</code> with an IP address, DNS is working - the block is at the antivirus
+                        or ISP traffic level. No answer section means DNS is blocked.
+                    </div>
+                </div>
 
-        <!-- LINUX -->
-        <div class="chart-section" id="chart-linux">
-            <h2>🐧 Linux</h2>
-            <p>Follow this chart step by step. DNS configuration varies by distro - see the <a href="dns.html">DNS guide</a> for distro-specific commands.</p>
-            <div class="mermaid-wrap"><pre class="mermaid">
+                <!-- LINUX -->
+                <div class="tab-panel" id="chart-linux">
+                    <p>Follow this chart step by step. DNS configuration varies by distro - see the <a href="dns.html">DNS guide</a> for distro-specific commands.</p>
+                    <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([Start - Site won't load on Linux]) --> DNS0[Run: dig DOMAIN\nor: nslookup DOMAIN]
     DNS0 --> DNS1{Did it return\nan IP address?}
@@ -188,8 +152,10 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-            <div class="callout info">
-                Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> - whichever says <code>active</code> is yours. See the full <a href="dns.html">DNS guide</a>                for distro-specific commands.
+                    <div class="callout info">
+                        Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> - whichever says <code>active</code> is yours. See the full <a href="dns.html">DNS guide</a>                        for distro-specific commands.
+                    </div>
+                </div>
             </div>
         </div>
 
