@@ -245,8 +245,43 @@ flowchart TD
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
-            document.querySelectorAll("pre.mermaid").forEach(el => {
-                el.textContent = el.textContent.replaceAll("DOMAIN", domain);
+
+            // Save each chart's raw source + substitute the domain BEFORE mermaid
+            // touches anything, and track which ones have actually been rendered
+            // while visible (rendering into a display:none panel gives mermaid a
+            // zero-width container, which is what was producing the broken
+            // macOS/Linux charts).
+            const chartSources = new Map(); // panel id -> raw mermaid source
+            document.querySelectorAll(".tab-panel pre.mermaid").forEach(pre => {
+                const panel = pre.closest(".tab-panel");
+                chartSources.set(panel.id, pre.textContent.replaceAll("DOMAIN", domain));
+            });
+
+            const renderedPanels = new Set();
+
+            function renderChart(panelId) {
+                if (renderedPanels.has(panelId)) return;
+                const panel = document.getElementById(panelId);
+                const wrap = panel && panel.querySelector(".mermaid-wrap");
+                const source = chartSources.get(panelId);
+                if (!wrap || !source || typeof mermaid === "undefined") return;
+
+                wrap.innerHTML = `<pre class="mermaid">${source}</pre>`;
+                mermaid.run({
+                    nodes: wrap.querySelectorAll(".mermaid")
+                }).then(() => {
+                    renderedPanels.add(panelId);
+                }).catch(err => console.warn("[mermaid] render failed for", panelId, err));
+            }
+
+            // Render whichever panel starts active (Windows), then render the
+            // others lazily the first time their tab is clicked, once they're
+            // actually visible.
+            const startActive = document.querySelector(".os-tabs .tab-panel.active");
+            if (startActive) renderChart(startActive.id);
+
+            document.querySelectorAll(".os-tabs .tab-btn").forEach(btn => {
+                btn.addEventListener("click", () => renderChart(btn.dataset.tab));
             });
         });
     </script>
