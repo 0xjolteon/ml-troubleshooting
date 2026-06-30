@@ -62,7 +62,7 @@
             <div class="hero-badge">Problem 2 - Game Disconnects</div>
             <h1>Disconnecting<br><span>from the game?</span></h1>
             <p>
-                You can reach the site fine, but you're dropping from the game server mid-session. This is a routing problem between your ISP and our server - here's what we know and what might help.
+                You can reach the site fine, but you're dropping from the game server mid-session. This may be a routing problem between your ISP and <span data-config="serverName"></span>. Here's what I know and what might help.
             </p>
         </div>
 
@@ -88,7 +88,7 @@
                 The game server sits in Montreal on OVH's network. Depending on your ISP and where you are, the network path between you and that server may take inefficient routes - extra hops, congested links, or high-latency segments that cause packet loss and disconnections.
             </p>
             <p>
-                This is most commonly reported by players in Southeast Asia, but it's not exclusive to any region - it comes down to how your specific ISP routes traffic toward eastern Canada. Some ISPs route it cleanly; others don't.
+                This is most commonly reported by players in SEA, but it's not exclusive to any region - it comes down to how your specific ISP routes traffic toward eastern Canada. Some ISPs route it cleanly, others don't.
             </p>
             <div class="callout info">
                 <strong>Will WARP definitely help?</strong> Not necessarily. WARP reroutes your traffic through Cloudflare's network, which often has better peering toward OVH Montreal - but if your existing path is already good, adding WARP can introduce
@@ -148,7 +148,7 @@ flowchart TD
         <div class="section">
             <h2>Step 2 - Run a traceroute (if WARP doesn't help)</h2>
             <p>
-                A traceroute shows the exact path your packets take to the server and where they're getting dropped or delayed. This is the most useful information you can give staff when reporting a disconnect issue.
+                A traceroute shows the exact path your packets take to the server and where they're getting dropped or delayed. This is one of the most useful pieces of information you can give (in my opinion) when reporting a disconnect issue.
             </p>
             <div class="os-tabs">
                 <div class="tab-buttons">
@@ -172,8 +172,8 @@ mtr --report <span data-config="serverDomain"></span></code></pre>
                 </div>
             </div>
             <div class="callout info">
-                When posting your traceroute in <a href="#" data-discord>Discord</a>, also mention: your ISP name, your country/region, and whether WARP made things better, worse, or no difference. This helps narrow down whether it's a routing issue we've
-                seen before.
+                When posting your traceroute in <a href="#" data-discord>Discord</a>, also mention: your ISP name, your country/region, and whether WARP made things better, worse, or no difference. This helps narrow down whether it's a routing issue that
+                has been seen before.
             </div>
         </div>
 
@@ -184,7 +184,7 @@ mtr --report <span data-config="serverDomain"></span></code></pre>
                 If disconnects only happen during certain times of day - typically evenings in your local timezone - that's usually ISP congestion rather than a routing problem. Your ISP's links become saturated during peak hours and start dropping packets.
             </p>
             <p>
-                WARP can sometimes help here too, as it may route around congested ISP segments. But if congestion is severe enough, neither WARP nor any other fix on your end will fully solve it - it's a capacity issue on your ISP's network.
+                WARP can sometimes help here too, as it may route around congested ISP segments. But if congestion is severe enough, it's possible neither WARP nor any other fix on your end will fully solve it - it's a capacity issue on your ISP's network.
             </p>
         </div>
 

@@ -10,13 +10,13 @@
 const SITE_CONFIG = {
 
     // ── Server identity ────────────────────────────────────────
-    serverName: "MapleLegends Private Server", // Displayed in header and page titles
+    serverName: "MapleLegends", // Displayed in header and page titles
     gameName: "MapleStory", // Used in guide text
     serverEmoji: "🍁", // Emoji shown in the header logo
 
     // ── Domain ────────────────────────────────────────────────
     // The full domain players are trying to reach (used in nslookup/dig commands)
-    serverDomain: "yourserver.ml",
+    serverDomain: "legends.ml",
 
     // The TLD alone (used in explanatory text e.g. "the .ml domain")
     serverTLD: ".ml",
@@ -29,8 +29,8 @@ const SITE_CONFIG = {
 
     // ── Community links ───────────────────────────────────────
     discordInvite: "https://discord.gg/XXXXXXXX", // Your Discord invite URL
-    discordChannel: "#connection-help", // Channel name to mention in guides
-    githubRepo: "https://github.com/0xjolteon/ml-troubleshooting.github.io", // For footer "suggest edits" link
+    discordChannel: "#support", // Channel name to mention in guides
+    githubRepo: "https://github.com/0xjolteon/ml-troubleshooting", // For footer "suggest edits" link
 
     // ── Cloudflare Zero Trust ─────────────────────────────────
     // Your Zero Trust team name (the short name, not the full .cloudflareaccess.com domain)
@@ -39,10 +39,10 @@ const SITE_CONFIG = {
 
     // ── Routing callout visibility ────────────────────────────
     // Set to false to hide the "experiencing disconnects? try WARP" callout boxes
-    highlightSEA: true,
+    highlightSEA: false,
 
     // ── Footer text ───────────────────────────────────────────
-    footerText: "Maintained by the server staff",
+    footerText: "Maintained by 0xjolteon",
 
 };
 
