@@ -281,7 +281,13 @@ flowchart TD
             if (startActive) renderChart(startActive.id);
 
             document.querySelectorAll(".os-tabs .tab-btn").forEach(btn => {
-                btn.addEventListener("click", () => renderChart(btn.dataset.tab));
+                btn.addEventListener("click", () => {
+                    // Defer to the next tick so shared.js's click handler (which
+                    // toggles the .active class / display:block on the panel)
+                    // runs first. Otherwise we'd render into a still-hidden
+                    // panel and mermaid would measure a zero-width container.
+                    setTimeout(() => renderChart(btn.dataset.tab), 0);
+                });
             });
         });
     </script>
