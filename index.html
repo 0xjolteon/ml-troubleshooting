@@ -1,172 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Connection Help</title>
-  <link rel="stylesheet" href="shared.css" />
-  <style>
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.25rem;
-      margin: 2rem 0 3rem;
-    }
-    .problem-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.15s, transform 0.15s;
-      display: block;
-    }
-    .problem-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-    .problem-card .icon { font-size: 2.25rem; margin-bottom: 0.75rem; }
-    .problem-card .title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-    .problem-card .symptom {
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.6rem;
-    }
-    .problem-card .desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .problem-card .causes {
-      margin-top: 0.85rem;
-      padding-top: 0.85rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .problem-card .causes span {
-      display: inline-block;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.15rem 0.45rem;
-      margin: 0.15rem 0.15rem 0 0;
-    }
-    .divider {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin: 2rem 0 1rem;
-      position: relative;
-    }
-    .divider::before {
-      content: '';
-      position: absolute;
-      left: 0; right: 0; top: 50%;
-      border-top: 1px solid var(--border);
-      z-index: 0;
-    }
-    .divider span {
-      background: var(--bg);
-      padding: 0 1rem;
-      position: relative;
-      z-index: 1;
-    }
-    .ref-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0.75rem;
-      margin-top: 1rem;
-      margin-bottom: 3rem;
-    }
-    .ref-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.9rem 1.1rem;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.875rem;
-      transition: color 0.15s, border-color 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .ref-card:hover { color: var(--text); border-color: var(--accent); }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connection Help</title>
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin: 2rem 0 3rem;
+        }
+        
+        .problem-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color 0.15s, transform 0.15s;
+            display: block;
+        }
+        
+        .problem-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .problem-card .icon {
+            font-size: 2.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .problem-card .title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+        
+        .problem-card .symptom {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+        
+        .problem-card .desc {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        .problem-card .causes {
+            margin-top: 0.85rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        
+        .problem-card .causes span {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.15rem 0.45rem;
+            margin: 0.15rem 0.15rem 0 0;
+        }
+        
+        .divider {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: 2rem 0 1rem;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            border-top: 1px solid var(--border);
+            z-index: 0;
+        }
+        
+        .divider span {
+            background: var(--bg);
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .ref-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.9rem 1.1rem;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.875rem;
+            transition: color 0.15s, border-color 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ref-card:hover {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+    </style>
 </head>
+
 <body>
 
-<div data-component="header"></div>
+    <div data-component="header"></div>
 
-<div class="page-wrap">
+    <div class="page-wrap">
 
-  <div class="hero">
-    <div class="hero-badge">Connection Help</div>
-    <h1>What's going wrong?<br><span>Pick your problem.</span></h1>
-  </div>
+        <div class="hero">
+            <div class="hero-badge">Connection Help</div>
+            <h1>What's going wrong?<br><span>Pick your problem.</span></h1>
+        </div>
 
-  <div class="problem-grid">
+        <div class="problem-grid">
 
-    <a class="problem-card" href="fix-access.html">
-      <div class="icon">🚫</div>
-      <div class="symptom">Problem 1</div>
-      <div class="title">I can't reach the site at all</div>
-      <div class="desc">
-        The forum or website fails to load — you see a browser error, a blank page,
-        or your antivirus blocks it before it even opens.
-      </div>
-      <div class="causes">
-        Common causes:
-        <span>ISP DNS block</span>
-        <span>Antivirus web shield</span>
-        <span>Deep packet inspection</span>
-      </div>
-    </a>
+            <a class="problem-card" href="fix-access.html">
+                <div class="icon">🚫</div>
+                <div class="symptom">Problem 1</div>
+                <div class="title">I can't reach the site at all</div>
+                <div class="desc">
+                    The forum or website fails to load - you see a browser error, a blank page, or your antivirus blocks it before it even opens.
+                </div>
+                <div class="causes">
+                    Common causes:
+                    <span>ISP DNS block</span>
+                    <span>Antivirus web shield</span>
+                    <span>Deep packet inspection</span>
+                </div>
+            </a>
 
-    <a class="problem-card" href="fix-disconnects.html">
-      <div class="icon">⚡</div>
-      <div class="symptom">Problem 2</div>
-      <div class="title">I keep disconnecting from the game</div>
-      <div class="desc">
-        The site loads fine and you can log in, but you drop from the game server
-        mid-session — lag spikes, timeouts, or random disconnects.
-      </div>
-      <div class="causes">
-        Common causes:
-        <span>Poor ISP routing</span>
-        <span>Packet loss in transit</span>
-        <span>ISP congestion</span>
-      </div>
-    </a>
+            <a class="problem-card" href="fix-disconnects.html">
+                <div class="icon">⚡</div>
+                <div class="symptom">Problem 2</div>
+                <div class="title">I keep disconnecting from the game</div>
+                <div class="desc">
+                    The site loads fine and you can log in, but you drop from the game server mid-session - lag spikes, timeouts, or random disconnects.
+                </div>
+                <div class="causes">
+                    Common causes:
+                    <span>Poor ISP routing</span>
+                    <span>Packet loss in transit</span>
+                    <span>ISP congestion</span>
+                </div>
+            </a>
 
-  </div>
+        </div>
 
-  <div class="divider"><span>Reference guides</span></div>
-  <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.75rem">
-    Know what you need? Jump straight to a specific guide.
-  </p>
-  <div class="ref-grid">
-    <a class="ref-card" href="dns.html">🌐 DNS settings</a>
-    <a class="ref-card" href="antivirus.html">🛡️ Antivirus whitelist</a>
-    <a class="ref-card" href="warp.html">☁️ Cloudflare WARP</a>
-    <a class="ref-card" href="warp-zero-trust.html">🔒 WARP Zero Trust</a>
-  </div>
+        <div class="divider"><span>Reference guides</span></div>
+        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.75rem">
+            Know what you need? Jump straight to a specific guide.
+        </p>
+        <div class="ref-grid">
+            <a class="ref-card" href="dns.html">🌐 DNS settings</a>
+            <a class="ref-card" href="antivirus.html">🛡️ Antivirus whitelist</a>
+            <a class="ref-card" href="warp.html">☁️ Cloudflare WARP</a>
+            <a class="ref-card" href="warp-zero-trust.html">🔒 WARP Zero Trust</a>
+        </div>
 
-</div>
+    </div>
 
-<div data-component="footer"></div>
+    <div data-component="footer"></div>
 
-<script src="loader.js"></script>
+    <script src="loader.js"></script>
 </body>
+
 </html>

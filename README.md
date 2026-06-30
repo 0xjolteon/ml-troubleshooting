@@ -1,4 +1,4 @@
-# MapleStory Private Server — Connection Help Guide
+# MapleStory Private Server - Connection Help Guide
 
 A static HTML site hosted on GitHub Pages to help players connect to the server when it is blocked by ISP DNS filtering or antivirus software, and to help SEA players with frequent disconnections.
 
@@ -20,7 +20,7 @@ You don't need to know Git. You can edit any file directly in GitHub's web edito
 
 1. Open the file you want to edit (e.g. `dns.html`).
 2. Click the **pencil icon** (Edit this file) in the top right.
-3. Make your changes. The content is plain HTML — just edit the text between tags.
+3. Make your changes. The content is plain HTML - just edit the text between tags.
 4. Scroll down and click **Commit changes**.
 
 ### Editing a flowchart
@@ -40,7 +40,7 @@ flowchart TD
 - `[text]` = rectangle (step)
 - `-->|label|` = labeled arrow
 
-Preview changes on the live site after committing — Mermaid renders in the browser automatically.
+Preview changes on the live site after committing - Mermaid renders in the browser automatically.
 
 ## How to deploy on GitHub Pages
 
@@ -61,8 +61,8 @@ They can then edit files directly in the GitHub web editor without needing Git k
 
 The guides intentionally use `yourserver.ml` as a placeholder. Find and replace it in the relevant files before publishing:
 
-- `dns.html` — in the verify section
-- `troubleshoot.html` — in all four flowcharts (`nslookup yourserver.ml`, `dig yourserver.ml`)
+- `dns.html` - in the verify section
+- `troubleshoot.html` - in all four flowcharts (`nslookup yourserver.ml`, `dig yourserver.ml`)
 
 ---
 

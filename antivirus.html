@@ -1,123 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Antivirus Fix — Connection Help</title>
-  <link rel="stylesheet" href="shared.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antivirus Fix - Connection Help</title>
+    <link rel="stylesheet" href="shared.css" />
 </head>
+
 <body>
 
-<div data-component="header"></div>
+    <div data-component="header"></div>
 
-<div class="page-wrap">
+    <div class="page-wrap">
 
-  <div class="hero">
-    <div class="hero-badge">Antivirus</div>
-    <h1>Whitelist the <span>site in your antivirus</span></h1>
-    <p>
-      Some antivirus products block <span data-config="serverTLD"></span> domains at the
-      application level, separate from DNS. If changing DNS didn't help, your antivirus
-      web shield may be the cause.
-    </p>
-  </div>
+        <div class="hero">
+            <div class="hero-badge">Antivirus</div>
+            <h1>Whitelist the <span>site in your antivirus</span></h1>
+            <p>
+                Some antivirus products block <span data-config="serverTLD"></span> domains at the application level, separate from DNS. If changing DNS didn't help, your antivirus web shield may be the cause.
+            </p>
+        </div>
 
-  <div class="section">
-    <h2>How to tell if antivirus is the problem</h2>
-    <p>
-      If your browser shows a warning page <em>from your antivirus</em> (not just a generic
-      browser error), that's the clear sign — look for the antivirus name in the warning.
-    </p>
-    <p>
-      You can also try loading <strong data-config="serverDomain"></strong> in a private/incognito
-      window. Antivirus web shields usually still apply there, so if it's still blocked,
-      DNS is probably not the issue.
-    </p>
-  </div>
+        <div class="section">
+            <h2>How to tell if antivirus is the problem</h2>
+            <p>
+                If your browser shows a warning page <em>from your antivirus</em> (not just a generic browser error), that's the clear sign - look for the antivirus name in the warning.
+            </p>
+            <p>
+                You can also try loading <strong data-config="serverDomain"></strong> in a private/incognito window. Antivirus web shields usually still apply there, so if it's still blocked, DNS is probably not the issue.
+            </p>
+        </div>
 
-  <div class="section">
-    <h2>Whitelist by antivirus <span class="tag">Pick yours</span></h2>
-    <div class="os-tabs">
-      <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="av-avast">Avast / AVG</button>
-        <button class="tab-btn" data-tab="av-malwarebytes">Malwarebytes</button>
-        <button class="tab-btn" data-tab="av-defender">Windows Defender</button>
-        <button class="tab-btn" data-tab="av-kaspersky">Kaspersky</button>
-        <button class="tab-btn" data-tab="av-bitdefender">Bitdefender</button>
-      </div>
+        <div class="section">
+            <h2>Whitelist by antivirus <span class="tag">Pick yours</span></h2>
+            <div class="os-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="av-avast">Avast / AVG</button>
+                    <button class="tab-btn" data-tab="av-malwarebytes">Malwarebytes</button>
+                    <button class="tab-btn" data-tab="av-defender">Windows Defender</button>
+                    <button class="tab-btn" data-tab="av-kaspersky">Kaspersky</button>
+                    <button class="tab-btn" data-tab="av-bitdefender">Bitdefender</button>
+                </div>
 
-      <div class="tab-panel active" id="av-avast">
-        <ol class="steps">
-          <li><div>Open <strong>Avast</strong> (or AVG) → <strong>Menu → Settings</strong>.</div></li>
-          <li><div>Go to <strong>General → Exceptions</strong>.</div></li>
-          <li><div>Click <strong>Add Exception</strong>.</div></li>
-          <li><div>Enter <strong data-config="serverDomain"></strong> and confirm.</div></li>
-        </ol>
-        <div class="callout info">AVG's interface is nearly identical — follow the same steps.</div>
-      </div>
+                <div class="tab-panel active" id="av-avast">
+                    <ol class="steps">
+                        <li>
+                            <div>Open <strong>Avast</strong> (or AVG) → <strong>Menu → Settings</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Go to <strong>General → Exceptions</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Click <strong>Add Exception</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Enter <strong data-config="serverDomain"></strong> and confirm.</div>
+                        </li>
+                    </ol>
+                    <div class="callout info">AVG's interface is nearly identical - follow the same steps.</div>
+                </div>
 
-      <div class="tab-panel" id="av-malwarebytes">
-        <ol class="steps">
-          <li><div>Open <strong>Malwarebytes → Settings</strong> (gear icon).</div></li>
-          <li><div>Go to the <strong>Allow List</strong> tab.</div></li>
-          <li><div>Click <strong>Add → Allow a Website</strong>.</div></li>
-          <li><div>Enter <strong data-config="serverDomain"></strong> and click <strong>Confirm</strong>.</div></li>
-        </ol>
-        <div class="callout">If you use <strong>Malwarebytes Browser Guard</strong>, also click the extension icon in your browser, find the blocked entry, and click <strong>Trust this website</strong>.</div>
-      </div>
+                <div class="tab-panel" id="av-malwarebytes">
+                    <ol class="steps">
+                        <li>
+                            <div>Open <strong>Malwarebytes → Settings</strong> (gear icon).</div>
+                        </li>
+                        <li>
+                            <div>Go to the <strong>Allow List</strong> tab.</div>
+                        </li>
+                        <li>
+                            <div>Click <strong>Add → Allow a Website</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Enter <strong data-config="serverDomain"></strong> and click <strong>Confirm</strong>.</div>
+                        </li>
+                    </ol>
+                    <div class="callout">If you use <strong>Malwarebytes Browser Guard</strong>, also click the extension icon in your browser, find the blocked entry, and click <strong>Trust this website</strong>.</div>
+                </div>
 
-      <div class="tab-panel" id="av-defender">
-        <p>Windows Defender's SmartScreen may show an "Unsafe website" warning you can bypass.</p>
-        <ol class="steps">
-          <li><div>When you see the SmartScreen block, click <strong>More information</strong>.</div></li>
-          <li><div>Click <strong>Go to the site anyway (unsafe)</strong>.</div></li>
-        </ol>
-        <p>For a more permanent fix, the <a href="dns.html">DNS change</a> is more reliable than SmartScreen whitelisting, which is limited on a per-site basis.</p>
-      </div>
+                <div class="tab-panel" id="av-defender">
+                    <p>Windows Defender's SmartScreen may show an "Unsafe website" warning you can bypass.</p>
+                    <ol class="steps">
+                        <li>
+                            <div>When you see the SmartScreen block, click <strong>More information</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Click <strong>Go to the site anyway (unsafe)</strong>.</div>
+                        </li>
+                    </ol>
+                    <p>For a more permanent fix, the <a href="dns.html">DNS change</a> is more reliable than SmartScreen whitelisting, which is limited on a per-site basis.</p>
+                </div>
 
-      <div class="tab-panel" id="av-kaspersky">
-        <ol class="steps">
-          <li><div>Open <strong>Kaspersky → Settings → General → Exclusions</strong>.</div></li>
-          <li><div>Click <strong>Manage Exclusions → Add</strong>.</div></li>
-          <li><div>Enter <strong data-config="serverDomain"></strong>.</div></li>
-          <li><div>Check <strong>Web Anti-Virus</strong> in the components list and click <strong>Add</strong>.</div></li>
-        </ol>
-      </div>
+                <div class="tab-panel" id="av-kaspersky">
+                    <ol class="steps">
+                        <li>
+                            <div>Open <strong>Kaspersky → Settings → General → Exclusions</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Click <strong>Manage Exclusions → Add</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Enter <strong data-config="serverDomain"></strong>.</div>
+                        </li>
+                        <li>
+                            <div>Check <strong>Web Anti-Virus</strong> in the components list and click <strong>Add</strong>.</div>
+                        </li>
+                    </ol>
+                </div>
 
-      <div class="tab-panel" id="av-bitdefender">
-        <ol class="steps">
-          <li><div>Open <strong>Bitdefender → Protection → Online Threat Prevention → Settings</strong>.</div></li>
-          <li><div>Click <strong>Manage Whitelist → Add</strong>.</div></li>
-          <li><div>Enter <strong data-config="serverDomain"></strong> and confirm.</div></li>
-        </ol>
-      </div>
+                <div class="tab-panel" id="av-bitdefender">
+                    <ol class="steps">
+                        <li>
+                            <div>Open <strong>Bitdefender → Protection → Online Threat Prevention → Settings</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Click <strong>Manage Whitelist → Add</strong>.</div>
+                        </li>
+                        <li>
+                            <div>Enter <strong data-config="serverDomain"></strong> and confirm.</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser extension blockers</h2>
+            <p>
+                Many antivirus products also install a browser extension that blocks sites independently. Check <code>chrome://extensions</code> or <code>about:addons</code> for anything from your antivirus vendor and look for an allow-list option within
+                it.
+            </p>
+            <div class="callout info">Common culprits: Avast Online Security, AVG Online Security, Kaspersky Protection, Bitdefender TrafficLight.</div>
+        </div>
+
+        <div class="section">
+            <h2>Still blocked?</h2>
+            <p>
+                If whitelisting didn't help, the block is likely at the DNS level from your ISP. Head to the <a href="dns.html">DNS fix guide</a>,
+                <a href="troubleshoot.html">run the troubleshooter</a>, or ask in
+                <a href="#" data-discord>our Discord</a> in <strong data-config="discordChannel"></strong>.
+            </p>
+        </div>
+
     </div>
-  </div>
 
-  <div class="section">
-    <h2>Browser extension blockers</h2>
-    <p>
-      Many antivirus products also install a browser extension that blocks sites independently.
-      Check <code>chrome://extensions</code> or <code>about:addons</code> for anything from
-      your antivirus vendor and look for an allow-list option within it.
-    </p>
-    <div class="callout info">Common culprits: Avast Online Security, AVG Online Security, Kaspersky Protection, Bitdefender TrafficLight.</div>
-  </div>
+    <div data-component="footer"></div>
 
-  <div class="section">
-    <h2>Still blocked?</h2>
-    <p>
-      If whitelisting didn't help, the block is likely at the DNS level from your ISP.
-      Head to the <a href="dns.html">DNS fix guide</a>,
-      <a href="troubleshoot.html">run the troubleshooter</a>, or ask in
-      <a href="#" data-discord>our Discord</a> in <strong data-config="discordChannel"></strong>.
-    </p>
-  </div>
-
-</div>
-
-<div data-component="footer"></div>
-
-<script src="loader.js"></script>
+    <script src="loader.js"></script>
 </body>
+
 </html>

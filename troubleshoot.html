@@ -1,66 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Troubleshooter — Connection Help</title>
-  <link rel="stylesheet" href="shared.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <style>
-    .chart-section { margin-bottom: 3.5rem; }
-    .chart-section h2 { margin-bottom: 1rem; }
-    .mermaid-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem 1rem;
-      margin: 1rem 0;
-      overflow-x: auto;
-      text-align: center;
-    }
-    .os-selector { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-    .os-pill {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.5rem 1.25rem;
-      border-radius: 99px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.15s;
-    }
-    .os-pill:hover, .os-pill.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(247,147,30,0.08);
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Troubleshooter - Connection Help</title>
+    <link rel="stylesheet" href="shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        .chart-section {
+            margin-bottom: 3.5rem;
+        }
+        
+        .chart-section h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .mermaid-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            text-align: center;
+        }
+        
+        .os-selector {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+        
+        .os-pill {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.5rem 1.25rem;
+            border-radius: 99px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+        
+        .os-pill:hover,
+        .os-pill.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(247, 147, 30, 0.08);
+        }
+    </style>
 </head>
+
 <body>
 
-<div data-component="header"></div>
+    <div data-component="header"></div>
 
-<div class="page-wrap">
+    <div class="page-wrap">
 
-  <div class="hero">
-    <div class="hero-badge">Troubleshooter</div>
-    <h1>Diagnose your <span>connection issue</span></h1>
-    <p>Follow the flowchart for your OS. Each decision point links to the relevant fix. Start at the top.</p>
-  </div>
+        <div class="hero">
+            <div class="hero-badge">Troubleshooter</div>
+            <h1>Diagnose your <span>connection issue</span></h1>
+            <p>Follow the flowchart for your OS. Each decision point links to the relevant fix. Start at the top.</p>
+        </div>
 
-  <div class="os-selector">
-    <a class="os-pill active" href="#chart-general">🗺️ General</a>
-    <a class="os-pill" href="#chart-win">🪟 Windows</a>
-    <a class="os-pill" href="#chart-mac">🍎 macOS</a>
-    <a class="os-pill" href="#chart-linux">🐧 Linux</a>
-    <a class="os-pill" href="#chart-sea">⚡ Disconnects</a>
-  </div>
+        <div class="os-selector">
+            <a class="os-pill active" href="#chart-general">🗺️ General</a>
+            <a class="os-pill" href="#chart-win">🪟 Windows</a>
+            <a class="os-pill" href="#chart-mac">🍎 macOS</a>
+            <a class="os-pill" href="#chart-linux">🐧 Linux</a>
+            <a class="os-pill" href="#chart-sea">⚡ Disconnects</a>
+        </div>
 
-  <div class="chart-section" id="chart-general">
-    <h2>General — What's my problem?</h2>
-    <p>Not sure where to start? Use this chart first.</p>
-    <div class="mermaid-wrap"><pre class="mermaid">
+        <div class="chart-section" id="chart-general">
+            <h2>General - What's my problem?</h2>
+            <p>Not sure where to start? Use this chart first.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
     A([🚀 Start here]) --> B{Can you load\nthe server site?}
     B -->|Yes, but\ndisconnecting| DISC[Go to Disconnects\nchart]
@@ -88,19 +105,19 @@ flowchart TD
     style AV fill:#f7931e,color:#000,stroke:none,rx:8
     style DISC fill:#f7931e,color:#000,stroke:none,rx:8
     </pre></div>
-  </div>
+        </div>
 
-  <div class="chart-section" id="chart-win">
-    <h2>🪟 Windows — Step by step</h2>
-    <p>Follow this chart if you're on Windows and the site won't load.</p>
-    <div class="mermaid-wrap"><pre class="mermaid">
+        <div class="chart-section" id="chart-win">
+            <h2>🪟 Windows - Step by step</h2>
+            <p>Follow this chart if you're on Windows and the site won't load.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
-    A([Start — Site won't load on Windows]) --> B{Does a browser\nerror name your\nantivirus?}
+    A([Start - Site won't load on Windows]) --> B{Does a browser\nerror name your\nantivirus?}
     B -->|Yes| AV[Open Avast / Malwarebytes\n/ Defender and whitelist\nthe site URL]
     B -->|No| C[Open Command Prompt\nRun: nslookup DOMAIN]
     C --> D{Did it return\nan IP address?}
-    D -->|No — DNS blocked| E[Change DNS to 1.1.1.1\nSettings → Network\n→ DNS → Manual]
-    D -->|Yes — DNS works| AV
+    D -->|No - DNS blocked| E[Change DNS to 1.1.1.1\nSettings → Network\n→ DNS → Manual]
+    D -->|Yes - DNS works| AV
     E --> F[Run: ipconfig /flushdns\nthen reload site]
     F --> G{Site loads now?}
     G -->|Yes ✅| DONE([✅ Done!])
@@ -115,21 +132,20 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-    <div class="callout info">
-      Tip: Run <code>nslookup <span data-config="serverDomain"></span></code> in Command Prompt first.
-      No result = DNS problem. Got an IP = antivirus problem.
-    </div>
-  </div>
+            <div class="callout info">
+                Tip: Run <code>nslookup <span data-config="serverDomain"></span></code> in Command Prompt first. No result = DNS problem. Got an IP = antivirus problem.
+            </div>
+        </div>
 
-  <div class="chart-section" id="chart-mac">
-    <h2>🍎 macOS — Step by step</h2>
-    <p>Follow this chart if you're on macOS and the site won't load.</p>
-    <div class="mermaid-wrap"><pre class="mermaid">
+        <div class="chart-section" id="chart-mac">
+            <h2>🍎 macOS - Step by step</h2>
+            <p>Follow this chart if you're on macOS and the site won't load.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
-    A([Start — Site won't load on macOS]) --> B[Open Terminal\nRun: dig DOMAIN]
+    A([Start - Site won't load on macOS]) --> B[Open Terminal\nRun: dig DOMAIN]
     B --> C{Did dig return\nan IP address?}
-    C -->|No — DNS blocked| D[System Settings → Network\n→ your connection\n→ Details → DNS tab\nAdd 1.1.1.1 and 1.0.0.1]
-    C -->|Yes — DNS works| AV
+    C -->|No - DNS blocked| D[System Settings → Network\n→ your connection\n→ Details → DNS tab\nAdd 1.1.1.1 and 1.0.0.1]
+    C -->|Yes - DNS works| AV
     D --> E[Flush cache:\nsudo dscacheutil -flushcache\nsudo killall -HUP mDNSResponder]
     E --> F{Site loads now?}
     F -->|Yes ✅| DONE([✅ Done!])
@@ -145,21 +161,20 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-    <div class="callout info">
-      Tip: Run <code>dig <span data-config="serverDomain"></span></code> in Terminal.
-      No <code>;; ANSWER SECTION:</code> = DNS blocked.
-    </div>
-  </div>
+            <div class="callout info">
+                Tip: Run <code>dig <span data-config="serverDomain"></span></code> in Terminal. No <code>;; ANSWER SECTION:</code> = DNS blocked.
+            </div>
+        </div>
 
-  <div class="chart-section" id="chart-linux">
-    <h2>🐧 Linux — Step by step</h2>
-    <p>Follow this chart if you're on Linux and the site won't load.</p>
-    <div class="mermaid-wrap"><pre class="mermaid">
+        <div class="chart-section" id="chart-linux">
+            <h2>🐧 Linux - Step by step</h2>
+            <p>Follow this chart if you're on Linux and the site won't load.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
-    A([Start — Site won't load on Linux]) --> B[Run: dig DOMAIN\nor: nslookup DOMAIN]
+    A([Start - Site won't load on Linux]) --> B[Run: dig DOMAIN\nor: nslookup DOMAIN]
     B --> C{Did it return\nan IP address?}
-    C -->|No — DNS blocked| D{Which DNS\nmanager are you using?}
-    C -->|Yes — DNS works| BROWSER[Check browser\nsecurity extensions\nand whitelist site]
+    C -->|No - DNS blocked| D{Which DNS\nmanager are you using?}
+    C -->|Yes - DNS works| BROWSER[Check browser\nsecurity extensions\nand whitelist site]
     D --> SD[systemd-resolved:\nEdit /etc/systemd/resolved.conf\nSet DNS=1.1.1.1 1.0.0.1\nRestart: sudo systemctl restart\nsystemd-resolved]
     D --> NM[NetworkManager:\nnmcli con mod connection-name\nipv4.dns 1.1.1.1\nnmcli con up connection-name]
     D --> RC[Static resolv.conf:\nEdit /etc/resolv.conf\nnameserver 1.1.1.1\nnameserver 1.0.0.1]
@@ -180,15 +195,15 @@ flowchart TD
     style DONE fill:#3fb950,color:#000,stroke:none
     style HELP fill:#58a6ff,color:#000,stroke:none
     </pre></div>
-    <div class="callout info">Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> — whichever returns <code>active</code> is yours.</div>
-  </div>
+            <div class="callout info">Not sure which DNS manager you have? Run <code>systemctl is-active systemd-resolved</code> and <code>systemctl is-active NetworkManager</code> - whichever returns <code>active</code> is yours.</div>
+        </div>
 
-  <div class="chart-section" id="chart-sea">
-    <h2>⚡ Frequent disconnects</h2>
-    <p>For players who can reach the site but drop frequently during gameplay. Poor routing between your ISP and our server is the most common cause.</p>
-    <div class="mermaid-wrap"><pre class="mermaid">
+        <div class="chart-section" id="chart-sea">
+            <h2>⚡ Frequent disconnects</h2>
+            <p>For players who can reach the site but drop frequently during gameplay. Poor routing between your ISP and our server is the most common cause.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
 flowchart TD
-    A([Start — Frequent disconnects\nduring gameplay]) --> B{Is WARP\nalready installed?}
+    A([Start - Frequent disconnects\nduring gameplay]) --> B{Is WARP\nalready installed?}
     B -->|No| INSTALL[Install Cloudflare WARP\nfrom one.one.one.one\nand connect]
     B -->|Yes| C{Is WARP\ncurrently on?}
     C -->|No| TOGGLE[Toggle WARP on\nand test again]
@@ -202,8 +217,8 @@ flowchart TD
     MODE --> |Switch to full WARP\nmode, not DNS-only| TEST3{Disconnects\nimproved?}
     TEST3 -->|Yes ✅| DONE
     TEST3 -->|No| TIME{Do disconnects\nhappen at a\nspecific time?}
-    TIME -->|Yes — peak hours| PEAK[This is likely\nISP congestion.\nTry playing at\noff-peak hours]
-    TIME -->|No — random| TRACE[Run traceroute to\nthe server IP and\npost results in Discord]
+    TIME -->|Yes - peak hours| PEAK[This is likely\nISP congestion.\nTry playing at\noff-peak hours]
+    TIME -->|No - random| TRACE[Run traceroute to\nthe server IP and\npost results in Discord]
     TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand connection type])
     PEAK --> HELP
     style A fill:#f7931e,color:#000,stroke:none
@@ -211,27 +226,26 @@ flowchart TD
     style HELP fill:#58a6ff,color:#000,stroke:none
     style INSTALL fill:#f7931e,color:#000,stroke:none,rx:8
     </pre></div>
-    <div class="callout">
-      <strong>Running a traceroute:</strong><br>
-      Windows: <code>tracert <span data-config="serverDomain"></span></code><br>
-      macOS/Linux: <code>traceroute <span data-config="serverDomain"></span></code><br>
-      Post the full output in <a href="#" data-discord>Discord</a> — it shows exactly where packets are dropping and helps staff diagnose the routing issue.
+            <div class="callout">
+                <strong>Running a traceroute:</strong><br> Windows: <code>tracert <span data-config="serverDomain"></span></code><br> macOS/Linux: <code>traceroute <span data-config="serverDomain"></span></code><br> Post the full output in <a href="#"
+                    data-discord>Discord</a> - it shows exactly where packets are dropping and helps staff diagnose the routing issue.
+            </div>
+        </div>
+
     </div>
-  </div>
 
-</div>
+    <div data-component="footer"></div>
 
-<div data-component="footer"></div>
-
-<script src="loader.js"></script>
-<script>
-  // Inject domain into mermaid chart text before Mermaid renders
-  document.addEventListener("DOMContentLoaded", () => {
-    const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
-    document.querySelectorAll("pre.mermaid").forEach(el => {
-      el.textContent = el.textContent.replaceAll("DOMAIN", domain);
-    });
-  });
-</script>
+    <script src="loader.js"></script>
+    <script>
+        // Inject domain into mermaid chart text before Mermaid renders
+        document.addEventListener("DOMContentLoaded", () => {
+            const domain = (typeof SITE_CONFIG !== "undefined") ? SITE_CONFIG.serverDomain : "yourserver.ml";
+            document.querySelectorAll("pre.mermaid").forEach(el => {
+                el.textContent = el.textContent.replaceAll("DOMAIN", domain);
+            });
+        });
+    </script>
 </body>
+
 </html>
