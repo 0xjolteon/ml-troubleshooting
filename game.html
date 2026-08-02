@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disconnecting from Game - Connection Help</title>
+    <link rel="stylesheet" href="shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        // Mermaid auto-renders on page load by default, which happens before
+        // shared.js (injected later by loader.js) can set our theme. Turn
+        // that off here immediately so nothing renders with the wrong theme;
+        // shared.js explicitly triggers the real render once it's ready.
+        if (typeof mermaid !== 'undefined') mermaid.initialize({
+            startOnLoad: false
+        });
+    </script>
+    <style>
+        .chart-section {
+            margin-bottom: 3.5rem;
+        }
+        
+        .mermaid-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            text-align: center;
+        }
+        
+        .fact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0 1.5rem;
+        }
+        
+        .fact-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+        }
+        
+        .fact-box .label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.3rem;
+        }
+        
+        .fact-box .value {
+            font-weight: 700;
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div data-component="header"></div>
+
+    <div class="page-wrap">
+
+        <div class="hero">
+            <div class="hero-badge">Problem 2 - Game Disconnects</div>
+            <h1>Disconnecting<br><span>from the game?</span></h1>
+            <p>
+                You can reach the site fine, but you're dropping from the game server mid-session. This may be a routing problem between your ISP and <span data-config="serverName"></span>. Here's what I know and what might help.
+            </p>
+        </div>
+
+        <!-- Server info -->
+        <div class="fact-grid">
+            <div class="fact-box">
+                <div class="label">Game server location</div>
+                <div class="value">Montreal, Canada</div>
+            </div>
+            <div class="fact-box">
+                <div class="label">Hosting provider</div>
+                <div class="value">OVH</div>
+            </div>
+            <div class="fact-box">
+                <div class="label">Likely affected players</div>
+                <div class="value">Varies by ISP &amp; region</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>What's actually causing this?</h2>
+            <p>
+                The game server sits in Montreal on OVH's network. Depending on your ISP and where you are, the network path between you and that server may take inefficient routes - extra hops, congested links, or high-latency segments that cause packet loss and disconnections.
+            </p>
+            <p>
+                This is most commonly reported by players in SEA, but it's not exclusive to any region - it comes down to how your specific ISP routes traffic toward eastern Canada. Some ISPs route it cleanly, others don't.
+            </p>
+            <div class="callout info">
+                <strong>Will WARP definitely help?</strong> Not necessarily. WARP reroutes your traffic through Cloudflare's network, which often has better peering toward OVH Montreal - but if your existing path is already good, adding WARP can introduce
+                slightly more latency. It's worth testing: connect WARP and play for a session to see if disconnects improve. If things feel worse, disconnect it.
+            </div>
+        </div>
+
+        <!-- Flowchart -->
+        <div class="chart-section">
+            <h2>Troubleshooting flowchart</h2>
+            <p class="chart-hint">💡 The orange box is clickable - click it to jump straight to the WARP guide.</p>
+            <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+    A([Start - Disconnecting from game]) --> B{Do you also have\ntrouble reaching\nthe site?}
+    B -->|Yes - both problems| BOTH[Go to the\nSite Access guide first\nthen come back here]
+    B -->|No - site loads fine| C{Is WARP\nalready installed?}
+    C -->|No| INSTALL[Install Cloudflare WARP\nSee WARP guide\nor Zero Trust guide]
+    C -->|Yes| WMODE{What mode\nis WARP in?}
+    INSTALL --> PLAY1{Play for\na session.\nDisconnects improved?}
+    PLAY1 -->|Yes ✅| DONE([✅ Done! Keep WARP on\nwhile playing])
+    PLAY1 -->|About the same\nor worse| WORSE[WARP may not\nhelp your route.\nDisconnect WARP]
+    WMODE -->|DNS only| FULL[Switch to full\nWARP mode\nin app settings]
+    WMODE -->|Full WARP| PLAY2{Disconnects\nimproved?}
+    FULL --> PLAY2
+    PLAY2 -->|Yes ✅| DONE
+    PLAY2 -->|No| TIME{Do disconnects\nhappen at\nspecific times?}
+    TIME -->|Peak hours only| PEAK[Likely ISP congestion.\nTry playing\nat off-peak times]
+    TIME -->|Random / always| TRACE[Run a traceroute\nto the server and\npost it in Discord]
+    WORSE --> TRACE
+    PEAK --> TRACE
+    TRACE --> HELP([💬 Share traceroute in Discord\nwith your ISP name\nand connection type])
+    C -.->|or skip WARP\nentirely| VPN[💡 A paid VPN can work too -\nit doesn't have to be WARP\nor split tunnelling.\nAvoid free VPNs - if you're\nnot paying for the product,\nyou're usually the product]
+    style A fill:#f7931e,color:#000,stroke:none
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    style BOTH fill:#58a6ff,color:#000,stroke:none
+    style INSTALL fill:#f7931e,color:#000,stroke:none,rx:8
+    click INSTALL "warp" "Go to the WARP guide"
+    </pre></div>
+        </div>
+
+        <!-- Step 1: Test first -->
+        <div class="section">
+            <h2>Step 1 - Test WARP</h2>
+            <p>
+                The quickest way to find out if WARP helps your route is to install it, connect it, and play for a session. If disconnects improve noticeably, keep using it. If latency gets worse or disconnects don't change, turn it off - it's not helping your path.
+            </p>
+            <p>
+                For the simplest setup (all traffic through WARP, no configuration needed): → <a href="warp">Basic WARP setup guide</a>
+            </p>
+            <p>
+                If you want only game/site traffic to go through WARP and leave everything else (streaming, Discord, other games) on your normal connection: → <a href="warp-zero-trust">Zero Trust split tunneling guide</a>
+            </p>
+            <div class="callout">
+                The split tunnel setup is more work to configure but is the better long-term option if you're going to leave WARP running all the time. It keeps your other traffic unaffected and avoids potential issues with other games or services that dislike VPN traffic.
+            </div>
+        </div>
+
+        <!-- Step 2: Traceroute -->
+        <div class="section">
+            <h2>Step 2 - Run a traceroute (if WARP doesn't help)</h2>
+            <p>
+                A traceroute shows the exact path your packets take to the server and where they're getting dropped or delayed. This is one of the most useful pieces of information you can give (in my opinion) when reporting a disconnect issue.
+            </p>
+            <div class="os-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="trace-win">🪟 Windows</button>
+                    <button class="tab-btn" data-tab="trace-mac">🍎 macOS</button>
+                    <button class="tab-btn" data-tab="trace-linux">🐧 Linux</button>
+                </div>
+                <div class="tab-panel active" id="trace-win">
+                    <pre><code>tracert <span data-config="serverDomain"></span></code></pre>
+                    <p>Run this in Command Prompt and copy the full output.</p>
+                </div>
+                <div class="tab-panel" id="trace-mac">
+                    <pre><code>traceroute <span data-config="serverDomain"></span></code></pre>
+                    <p>Run this in Terminal and copy the full output. If it hangs, try <code>traceroute -I <span data-config="serverDomain"></span></code> instead.</p>
+                </div>
+                <div class="tab-panel" id="trace-linux">
+                    <pre><code>traceroute <span data-config="serverDomain"></span>
+# or if not installed:
+mtr --report <span data-config="serverDomain"></span></code></pre>
+                    <p><code>mtr</code> gives a more detailed live view and is often more useful than a single traceroute. Post the full output.</p>
+                </div>
+            </div>
+            <div class="callout info">
+                When posting your traceroute in <a href="#" data-discord>Discord</a>, also mention: your ISP name, your country/region, and whether WARP made things better, worse, or no difference. This helps narrow down whether it's a routing issue that
+                has been seen before.
+            </div>
+        </div>
+
+        <!-- Step 3: Congestion -->
+        <div class="section">
+            <h2>Peak hour congestion</h2>
+            <p>
+                If disconnects only happen during certain times of day - typically evenings in your local timezone - that's usually ISP congestion rather than a routing problem. Your ISP's links become saturated during peak hours and start dropping packets.
+            </p>
+            <p>
+                WARP can sometimes help here too, as it may route around congested ISP segments. But if congestion is severe enough, it's possible neither WARP nor any other fix on your end will fully solve it - it's a capacity issue on your ISP's network.
+            </p>
+        </div>
+
+    </div>
+
+    <div data-component="footer"></div>
+
+    <script src="loader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrap = document.querySelector(".mermaid-wrap");
+            const pre = wrap && wrap.querySelector("pre.mermaid");
+            if (!wrap || !pre) return;
+
+            // Save the raw source before anything touches it.
+            const rawSource = pre.textContent;
+
+            // shared.js loads asynchronously via loader.js, well after
+            // DOMContentLoaded, and is what sets up Mermaid's theme. Wait
+            // for its readiness flag before rendering.
+            function whenReady(onReady) {
+                if (window.mermaidThemeReady) {
+                    onReady();
+                } else {
+                    setTimeout(() => whenReady(onReady), 50);
+                }
+            }
+
+            whenReady(() => {
+                // Recreate the element fresh right before rendering - the
+                // same approach website.html uses - rather than reusing the
+                // node that's been sitting in the page since load.
+                wrap.innerHTML = `<pre class="mermaid">${rawSource}</pre>`;
+                mermaid.run({
+                    nodes: wrap.querySelectorAll(".mermaid")
+                }).catch(err => console.error("[mermaid] render failed", err));
+            });
+        });
+    </script>
+</body>
+
+</html>

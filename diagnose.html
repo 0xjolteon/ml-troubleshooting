@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diagnose - Connection Help</title>
+    <link rel="stylesheet" href="shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        // Mermaid auto-renders on page load by default, which happens before
+        // shared.js (injected later by loader.js) can set our theme. Turn
+        // that off here immediately so nothing renders with the wrong theme;
+        // shared.js explicitly triggers the real render once it's ready.
+        if (typeof mermaid !== 'undefined') mermaid.initialize({
+            startOnLoad: false
+        });
+    </script>
+    <style>
+        .mermaid-wrap {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div data-component="header"></div>
+
+    <div class="page-wrap">
+
+        <div class="hero">
+            <div class="hero-badge">Diagnose Issues</div>
+            <h1>Diagnose your <span>connection issue</span></h1>
+            <p>Not sure where to start? Answer one question and this chart will point you to the right guide.</p>
+        </div>
+
+        <!-- ── FLOWCHART ── -->
+        <p class="chart-hint">💡 The orange boxes are clickable - click one to jump straight to that guide.</p>
+        <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+    A([🚀 Start here]) --> Q{What's the\nproblem?}
+    Q -->|❌ Can't load the\nwebsite at all| SITE[🌐 Go to the\nSite Issues guide]
+    Q -->|✅ Site loads fine,\nbut I get disconnected\nor laggy in-game| GAME[⚡ Go to the\nGame Issues guide]
+    Q -->|Both - site won't\nload AND I disconnect\nin-game| BOTH[Fix Site Access first,\nthen check Game Issues]
+    BOTH --> SITE
+    SITE --> R1{Did that\nresolve it?}
+    GAME --> R2{Did that\nresolve it?}
+    R1 -->|Yes ✅| DONE([✅ Done! Enjoy the game])
+    R1 -->|No| HELP([💬 Post in Discord\nfor further help])
+    R2 -->|Yes ✅| DONE
+    R2 -->|No| HELP
+    style A fill:#f7931e,color:#000,stroke:none
+    style BOTH fill:#58a6ff,color:#000,stroke:none
+    style SITE fill:#f7931e,color:#000,stroke:none,rx:8
+    style GAME fill:#f7931e,color:#000,stroke:none,rx:8
+    style DONE fill:#3fb950,color:#000,stroke:none
+    style HELP fill:#58a6ff,color:#000,stroke:none
+    click SITE "website" "Go to the Site Issues guide"
+    click GAME "game" "Go to the Game Issues guide"
+        </pre></div>
+
+    </div>
+
+    <div data-component="footer"></div>
+
+    <script src="loader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrap = document.querySelector(".mermaid-wrap");
+            const pre = wrap && wrap.querySelector("pre.mermaid");
+            if (!wrap || !pre) return;
+
+            // Save the raw source before anything touches it.
+            const rawSource = pre.textContent;
+
+            // shared.js loads asynchronously via loader.js, well after
+            // DOMContentLoaded, and is what sets up Mermaid's theme. Wait
+            // for its readiness flag before rendering.
+            function whenReady(onReady) {
+                if (window.mermaidThemeReady) {
+                    onReady();
+                } else {
+                    setTimeout(() => whenReady(onReady), 50);
+                }
+            }
+
+            whenReady(() => {
+                // Recreate the element fresh right before rendering - the
+                // same approach website.html uses - rather than reusing the
+                // node that's been sitting in the page since load.
+                wrap.innerHTML = `<pre class="mermaid">${rawSource}</pre>`;
+                mermaid.run({
+                    nodes: wrap.querySelectorAll(".mermaid")
+                }).catch(err => console.error("[mermaid] render failed", err));
+            });
+        });
+    </script>
+</body>
+
+</html>
